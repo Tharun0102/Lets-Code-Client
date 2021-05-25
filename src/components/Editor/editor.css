@@ -1,0 +1,9 @@
+.editor{
+  background-color: bisque;
+  position:absolute;
+  left:calc(15%);
+  right:calc(30%);
+  top:0;
+  height:100%;
+  border: 5px solid blue;
+}

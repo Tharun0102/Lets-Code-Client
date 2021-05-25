@@ -1,0 +1,17 @@
+.auth{
+  position: absolute;
+  max-height:90%;
+  border: 2px solid black;
+  /* display: grid;
+  place-items: center; */
+  left:35%;
+  right:35%;
+  top:20%;
+  bottom:20%;
+}
+.toggle-btn{
+  padding:.5rem;
+  width:100%;
+  border:none;
+  font-size: 30px;
+}

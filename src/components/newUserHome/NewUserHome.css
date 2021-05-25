@@ -1,0 +1,23 @@
+.new-user-home{
+  background-color: #1d2333;
+  color:white;
+  height:90vh;
+  display:flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.new-user-home a{
+  color:aquamarine;
+}
+.new-user-home a:hover{
+  text-decoration: underline;
+}
+
+.welcome{
+  font-size: 5rem;
+  margin: 1rem;
+}
+.new-user-home .text {
+  font-size: 3rem;
+}

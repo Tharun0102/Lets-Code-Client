@@ -1,0 +1,9 @@
+.console{
+  position: absolute;
+  left:calc(70%);
+  top:0;
+  right:0;
+  height:100%;
+  flex:1 1 30%;
+  border: 5px solid blue;
+}

@@ -1,0 +1,51 @@
+.user-files{
+  position: absolute;
+  left:0;
+  top:0;
+  right:85%;
+  height:100%;
+  flex:1 1 20%;
+  border: 5px solid rgb(70,70,70);
+}
+.user-files-container{
+  padding: .5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
+
+
+.user-files-header{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.user-files-header div{
+  cursor: pointer;
+}
+.user-files-header div,.user-files-header h2{
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+.user-files-content{
+  display: flex;
+  flex-direction: column;
+  padding: .5rem 0;
+}
+
+.file{
+  cursor: pointer;
+  padding: .1rem;
+  width:100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+.active{
+  background-color: aqua;
+}
+
+.file * {
+  flex-grow:1;
+}
+

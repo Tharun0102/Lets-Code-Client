@@ -1,0 +1,13 @@
+.folder-list{
+  border:2px solid black;
+  margin: 5rem 10rem;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.folder-list .title{
+  font-size: 2em;
+  padding: 1rem;
+}
+
