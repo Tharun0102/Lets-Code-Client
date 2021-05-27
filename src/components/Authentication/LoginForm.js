@@ -2,17 +2,21 @@ import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import validateInfo from './validation';
 import * as api from '../../api/index';
+import { GoogleLogin } from 'react-google-login';
+import * as userActions from '../../redux/actions/User';
 
 import './form.css';
 
 export function LoginForm() {
-  const [formData, setFormData] = useState({
-    username: '',
+  const initialState = {
+    name: '',
     password: '',
-    usernameError: '',
+    nameError: '',
     passwordError: ''
-  });
+  };
+  const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateInfo('login', formData);
@@ -20,37 +24,49 @@ export function LoginForm() {
     if (!noErrors) {
       setFormData({
         ...formData,
-        usernameError: errors.username || '',
+        nameError: errors.name || '',
         passwordError: errors.password || '',
       });
       return;
     }
-    const user = await api.getUser(formData.username)
-    console.log(formData.username, user);
-    if (user.data) {
+    const user = await api.getUser({ "name": formData.name, "password": formData.password });
+
+    if (user && user.data) {
+      localStorage.setItem('user', JSON.stringify(user.data));
       dispatch({ type: 'SIGN_IN', payload: user.data });
-      console.log("dispatched!", user.data);
+      setFormData(initialState);
     } else {
       setFormData({
         ...formData,
-        usernameError: "user doesn't exist"
+        nameError: "user doesn't exist"
       });
-      return;
     }
   };
+
+  const googleResponse = async (res) => {
+    const profile = res.profileObj;
+    // has registered email
+    const user = await api.getUser({ "email": profile.email });
+    if (user.data) {
+      localStorage.setItem('user', JSON.stringify(user.data));
+      dispatch({ type: 'SIGN_IN', payload: user.data });
+    } else {
+      userActions.createUser({ name: profile.name, email: profile.email });
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} noValidate >
       <div className="input-container">
         <input
-          className={`${formData.usernameError === '' ? '' : "input-error"}`}
+          className={`${formData.nameError === '' ? '' : "input-error"}`}
           type="text"
-          placeholder="username"
-          name="username"
-          value={formData.username}
-          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          placeholder="name"
+          name="name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
-        {formData.usernameError !== '' && <span className="error-msg">{formData.usernameError}</span>}
+        {formData.nameError !== '' && <span className="error-msg">{formData.nameError}</span>}
       </div>
       <div className="input-container">
         <input
@@ -64,6 +80,13 @@ export function LoginForm() {
         {formData.passwordError !== '' && <span className="error-msg">{formData.passwordError}</span>}
       </div>
       <button className="submit-btn">Login</button>
+      <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
+      {/* google-client-secret:Ur24hyV4Lt9BpJpE4mT52eVX */}
+      <GoogleLogin
+        clientId="325494090646-sulug0movv3sqic1fhipt82ssj2inast.apps.googleusercontent.com"
+        onSuccess={googleResponse}
+        onFailure={googleResponse}
+      />
     </form>
   );
 }

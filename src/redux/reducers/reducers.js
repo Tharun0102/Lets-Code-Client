@@ -2,29 +2,25 @@ import { combineReducers } from 'redux';
 
 const userDetailsReducer = (state = { isLogged: false }, action) => {
   switch (action.type) {
-    case 'CREATE_USER'://signup
-      return {
-        ...state,
-        username: action.payload.username,
-        email: action.payload.email,
-        isLogged: true
-      };
     case 'SIGN_IN':
-      return {
+      const user = {
         ...state,
-        username: action.payload.username,
+        name: action.payload.name,
         email: action.payload.email,
+        id: action.payload._id,
         projects: [],
         isLogged: true
       };
+      return user;
     case 'LOG_OUT':
       return {
         isLogged: false
-      }
+      };
     default:
       return state;
   }
 }
+
 const projectDetailsReducer = (state = [], action) => {
   console.log("state", state);
   switch (action.type) {

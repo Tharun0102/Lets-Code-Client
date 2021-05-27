@@ -4,39 +4,66 @@ import { useDispatch } from 'react-redux';
 import * as userActions from '../../redux/actions/User';
 import validateInfo from './validation';
 import * as api from '../../api/index';
+import { GoogleLogin } from 'react-google-login';
 
 export function SignupForm() {
   const [formData, setFormData] = useState({
     email: '',
-    username: '',
+    name: '',
     password: '',
     emailError: '',
-    usernameError: '',
+    nameError: '',
     passwordError: ''
   });
   const dispatch = useDispatch();
+
+  // signup
   const handleSubmit = async (e) => {
     e.preventDefault();
     const errors = validateInfo('signup', formData);
     const noErrors = Object.keys(errors).length === 0 && errors.constructor === Object;
     if (!noErrors) {
-      console.log("errors!", errors);
       setFormData({
         ...formData,
         emailError: errors.email || '',
-        usernameError: errors.username || '',
+        nameError: errors.name || '',
         passwordError: errors.password || '',
       });
       return;
     }
-    const user = await api.getUser(formData.username);
+    // user already exists
+    const user = await api.getUser({ name: formData.name, email: formData.email });
     if (user.data) {
-      setFormData({ ...formData, usernameError: 'username taken' });
+      alert("user already exists,try logging in");
+      return;
+    }
+    // name taken
+    const isTaken = await api.getUser({ name: formData.name });
+    if (isTaken.data) {
+      setFormData({ ...formData, nameError: 'name taken' });
       return;
     }
     dispatch(userActions.createUser(formData));
-    console.log("dispatched!");
   };
+
+  const googleResponse = async (res) => {
+    const profile = res.profileObj;
+    // has registered email
+    const user = await api.getUser({ "email": profile.email });
+    if (user.data) {
+      localStorage.setItem('user', JSON.stringify(user.data));
+      dispatch({ type: 'SIGN_IN', payload: user.data });
+    } else {
+      api.createUser({ name: profile.name, email: profile.email })
+        .then((res) => {
+          localStorage.setItem('user', JSON.stringify(res.data));
+          dispatch({ type: 'SIGN_IN', payload: res.data });
+        })
+        .catch(error => {
+          alert("error logging in,Please try again!");
+        });
+    }
+  }
 
   return (
     <form onSubmit={handleSubmit} noValidate >
@@ -53,14 +80,14 @@ export function SignupForm() {
       </div>
       <div className="input-container">
         <input
-          className={`${formData.usernameError === '' ? '' : "input-error"}`}
+          className={`${formData.nameError === '' ? '' : "input-error"}`}
           type="text"
-          placeholder="username"
-          name="username"
-          value={formData.username}
-          onChange={(e) => setFormData({ ...formData, username: e.target.value })}
+          placeholder="name"
+          name="name"
+          value={formData.name}
+          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
-        {formData.usernameError !== '' && <span className="error-msg">{formData.usernameError}</span>}
+        {formData.nameError !== '' && <span className="error-msg">{formData.nameError}</span>}
       </div>
       <div className="input-container">
         <input
@@ -74,6 +101,13 @@ export function SignupForm() {
         {formData.passwordError !== '' && <span className="error-msg">{formData.passwordError}</span>}
       </div>
       <button className="submit-btn">Signup</button>
+      <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
+      {/* google-client-secret:Ur24hyV4Lt9BpJpE4mT52eVX */}
+      <GoogleLogin
+        clientId="325494090646-sulug0movv3sqic1fhipt82ssj2inast.apps.googleusercontent.com"
+        onSuccess={googleResponse}
+        onFailure={googleResponse}
+      />
     </form>
   );
 }

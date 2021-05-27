@@ -1,62 +1,63 @@
-import React from 'react';
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-
-import Editor from './components/Editor/Editor';
-import Header from './components/Header/Header';
-import Console from './components/console/Console';
+import React, { useEffect } from 'react';
+import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import Home from './components/Home/Home';
-import FileList from './containers/FilesList/FilesList';
-import Auth from './components/Authentication/Auth';
 import NewUserHome from './components/newUserHome/NewUserHome';
-import { useSelector } from 'react-redux';
+import Header from './components/Header/Header';
+import Auth from './components/Authentication/Auth';
+
 
 export default function Router() {
+  const dispatch = useDispatch();
   const user = useSelector(state => state.userDetails);
-  if (!user.isLogged) {
-    return <BrowserRouter>
-      <Switch>
-        <Route path="/" exact>
-          <Header />
-          <NewUserHome />
-        </Route>
-        <Route path="/auth" exact>
-          <Auth />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
-    </BrowserRouter>
+  const isLogged = user.isLogged;
+
+  useEffect(() => {
+    const User = JSON.parse(localStorage.getItem("user"));
+    if (User) {
+      dispatch({
+        type: 'SIGN_IN',
+        payload: User
+      });
+    }
+  }, []);
+
+  if (isLogged) {
+    return (
+      <BrowserRouter>
+        <Header />
+        <Switch>
+          <Route path='/' exact>
+            <Home />
+          </Route>
+          <Route path='/auth' exact>
+            <Redirect to="/" />
+          </Route>
+          <Route path='/' exact>
+            <Home />
+          </Route>
+          <Redirect to="/auth" />
+
+        </Switch>
+      </BrowserRouter>
+    );
   }
   return (
     <BrowserRouter>
-      {user.isLogged && <h1>LoggedIn</h1>}
-      <main>
-        <Switch>
-          <Route path="/" exact>
-            <Header />
-            <NewUserHome />
-          </Route>
-          <Route path="/:userId/home" exact>
-            <Header />
-            <Home />
-          </Route>
-          <Route path="/auth" exact>
-            <Auth />
-          </Route>
-          <Route path="/:userId" exact>
-            <Header />
-            <Home />
-          </Route>
-          <Route path="/:userId/:collectionId" exact>
-            <Header />
-            <div className="files-editor-console">
-              <FileList />
-              <Editor />
-              <Console />
-            </div>
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      </main>
+      <Header />
+      <Switch>
+        <Route path='/' exact>
+          <NewUserHome />
+        </Route>
+        <Route path='/auth' exact>
+          <Auth />
+        </Route>
+        <Route path='/' exact>
+          <Home />
+        </Route>
+        <Redirect to="/auth" />
+
+      </Switch>
     </BrowserRouter>
   );
 }

@@ -6,8 +6,15 @@
   flex-direction: column;
   align-items: center;
 }
-.folder-list .title{
-  font-size: 2em;
-  padding: 1rem;
+.folder-list .header{
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  width:100%;
+  font-size: 20px;
+  padding:1rem;
+}
+.header button{
+  font-size: inherit;
 }
 

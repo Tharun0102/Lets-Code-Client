@@ -9,6 +9,7 @@ export default function Auth() {
   const userDetails = useSelector(state => state.userDetails);
   const [active, setActive] = React.useState("signup");
 
+
   if (userDetails.isLogged) {
     return <Redirect to={`users/${userDetails.id}`} />
   } else {

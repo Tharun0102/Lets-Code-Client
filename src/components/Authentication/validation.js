@@ -2,10 +2,10 @@
 export default function validateInfo(type, values) {
   let errors = {};
 
-  if (!values.username.trim()) {
-    errors.username = 'username required';
-  } else if (values.username.length < 4 || values.username.length > 15) {
-    errors.username = 'username must be between 4 and 15 characters ';
+  if (!values.name.trim()) {
+    errors.name = 'name required';
+  } else if (values.name.length < 4 || values.name.length > 15) {
+    errors.name = 'name must be between 4 and 15 characters ';
   }
   // else if (!/^[A-Za-z]+/.test(values.name.trim())) {
   //   errors.name = 'Enter a valid name';
