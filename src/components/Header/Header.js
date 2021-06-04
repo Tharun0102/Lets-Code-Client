@@ -7,7 +7,6 @@ export default function Header() {
   const userDetails = useSelector(state => state.userDetails);
   const dispatch = useDispatch();
   const logout = () => {
-    localStorage.removeItem('user');
     dispatch({ type: 'LOG_OUT' });
   }
   const content = (userDetails.isLogged) ? (

@@ -1,21 +1,36 @@
 .project{
+  user-select: none;
   position: relative;
   font-size: 1.5em;
-  margin: .5rem;
-  padding: .5rem;
+  margin:.5rem;
+  padding: 1rem;
   background-color: aqua;
   width:100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
+  transition: all .3s;
+}
+.project:hover{
+  transform: scale(1.02,1.1);
+  
 }
 .project-title{
+  width:60%;
   cursor: pointer;
   position: absolute;
-  left:0;
+  left:2%;
   padding-left: .5rem;
 }
+
+
+
+ a{
+  text-decoration: none;
+  color: inherit;
+}
 .project-controls{
+  width: 20%;
   display: flex ;
   justify-content: space-around;
   align-items: baseline;

@@ -1,9 +1,14 @@
 import { combineReducers } from 'redux';
+import { persistReducer } from 'redux-persist'
+import storage from 'redux-persist/lib/storage'
+
 
 const userDetailsReducer = (state = { isLogged: false }, action) => {
+  let updated = state;
   switch (action.type) {
     case 'SIGN_IN':
-      const user = {
+      console.log(action.payload);
+      updated = {
         ...state,
         name: action.payload.name,
         email: action.payload.email,
@@ -11,42 +16,55 @@ const userDetailsReducer = (state = { isLogged: false }, action) => {
         projects: [],
         isLogged: true
       };
-      return user;
+      return updated;
     case 'LOG_OUT':
       return {
         isLogged: false
       };
-    default:
-      return state;
-  }
-}
-
-const projectDetailsReducer = (state = [], action) => {
-  console.log("state", state);
-  switch (action.type) {
+    case 'INIT_PROJECTS':
+      updated = {
+        ...state,
+        projects: action.payload
+      }
+      return updated;
     case 'ADD_PROJECT':
-      const newProject = {
-        id: action.id,
-        name: action.name,
-        fileList: []
-      };
-      state.push(newProject);
-      return state;
+      updated = {
+        ...state,
+        projects: [...state.projects, action.payload]
+      }
+      return updated;
+    case 'DELETE_PROJECT':
+      updated = state.projects.filter(p => (p !== null && p._id != action.payload._id));
+      return {
+        ...state,
+        projects: updated
+      }
     case 'STAR':
-      const id = action.id;
-      const index = state.findIndex(e => e.id === id);
-      state[index].starred = true;
-      return state;
+      updated = state.projects.map((p) => {
+        if (p._id == action.payload._id) {
+          p.isFav = !p.isFav;
+          console.log(p.isFav);
+        }
+        return p;
+      })
+      return {
+        ...state,
+        projects: updated
+      }
     default:
       return state;
   }
 }
 
+const persistConfig = {
+  key: 'root',
+  storage,
+  whiltelist: ['userDetails']
+}
 
-const allReducers = combineReducers(
-  { userDetails: userDetailsReducer },
-  { projectDetails: projectDetailsReducer }
 
+const rootReducer = combineReducers(
+  { userDetails: userDetailsReducer }
 );
 
-export default allReducers;
+export default persistReducer(persistConfig, rootReducer);

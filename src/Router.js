@@ -5,22 +5,14 @@ import Home from './components/Home/Home';
 import NewUserHome from './components/newUserHome/NewUserHome';
 import Header from './components/Header/Header';
 import Auth from './components/Authentication/Auth';
+import ProjectHome from './containers/ProjectHome/ProjectHome';
+import * as api from './api';
 
 
 export default function Router() {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userDetails);
   const isLogged = user.isLogged;
-
-  useEffect(() => {
-    const User = JSON.parse(localStorage.getItem("user"));
-    if (User) {
-      dispatch({
-        type: 'SIGN_IN',
-        payload: User
-      });
-    }
-  }, []);
 
   if (isLogged) {
     return (
@@ -33,11 +25,10 @@ export default function Router() {
           <Route path='/auth' exact>
             <Redirect to="/" />
           </Route>
-          <Route path='/' exact>
-            <Home />
+          <Route path='/projects/:projectId' exact>
+            <ProjectHome />
           </Route>
-          <Redirect to="/auth" />
-
+          <Redirect to="/" />
         </Switch>
       </BrowserRouter>
     );
@@ -52,11 +43,7 @@ export default function Router() {
         <Route path='/auth' exact>
           <Auth />
         </Route>
-        <Route path='/' exact>
-          <Home />
-        </Route>
         <Redirect to="/auth" />
-
       </Switch>
     </BrowserRouter>
   );

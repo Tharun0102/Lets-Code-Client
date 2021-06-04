@@ -15,7 +15,7 @@ const FILES = [
   }
 ];
 
-export default function FileList() {
+export default function FilesList() {
 
   const createFileHandler = () => {
     FILES.push(
@@ -29,7 +29,7 @@ export default function FileList() {
   }
 
   return (
-    <div className="user-files">
+    <div className="files-list">
       <UserFiles
         files={FILES}
         createFileHandler={createFileHandler}

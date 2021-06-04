@@ -1,0 +1,18 @@
+.modal__content input{
+  padding: .3rem;
+}
+.modal__content select{
+  padding: .3rem;
+  margin-top: 1rem;
+}
+
+.modal__footer {
+  width: 30%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 1rem 0.5rem;
+}
+.modal__footer button{
+  padding: .3rem;
+}
