@@ -51,12 +51,10 @@ export function SignupForm() {
     // has registered email
     const user = await api.getUser({ "email": profile.email });
     if (user.data) {
-      localStorage.setItem('user', JSON.stringify(user.data));
       dispatch({ type: 'SIGN_IN', payload: user.data });
     } else {
       api.createUser({ name: profile.name, email: profile.email })
         .then((res) => {
-          localStorage.setItem('user', JSON.stringify(res.data));
           dispatch({ type: 'SIGN_IN', payload: res.data });
         })
         .catch(error => {

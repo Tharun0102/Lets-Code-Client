@@ -19,11 +19,22 @@ function Project(props) {
     setDeleteModal(false);
   }
 
+  const toggleFavourite = () => {
+    dispatch({ type: 'STAR', payload: { _id: props.project._id } });
+    api.toggleFavourite({ id: user.id, projectId: props.project._id });
+  }
+
   const deleteProjectHandler = async (e) => {
     await api.deleteProject({ id: user.id, projectId: props.project._id });
     dispatch(userActions.DELETE_PROJECT({ _id: props.project._id }));
     closeDeleteModal();
   }
+
+  const goToProject = () => {
+    console.log("goToProject");
+    dispatch({ type: 'SET_PROJECT', payload: { _id: props.project._id } })
+  }
+
   return <React.Fragment>
     {deleteModal && <Modal
       show={deleteModal}
@@ -40,9 +51,11 @@ function Project(props) {
     </Modal>
     }
     <div className="project">
-      <Link className="project-title" to={`/projects/${props.project._id}`}>{props.project.name}</Link>
+      <Link className="project-title" to={`/projects/${props.project.name}`}>
+        <div onClick={goToProject} >{props.project.name}</div>
+      </Link>
       <div className="project-controls">
-        <div onClick={() => { dispatch({ type: 'STAR', payload: { _id: props.project._id } }) }}>{props.project.isFav ? "💘" : "❤️"}</div>
+        <div onClick={toggleFavourite}>{props.project.isFav ? "💘" : "❤️"}</div>
         <div onClick={openDeleteModal}>❌</div>
       </div>
     </div >

@@ -55,16 +55,27 @@ const userDetailsReducer = (state = { isLogged: false }, action) => {
       return state;
   }
 }
+const activeStateReducer = (state = { projectId: '', fileId: '' }, action) => {
+  switch (action.type) {
+    case 'SET_PROJECT':
+      return { ...state, projectId: action.payload._id };
+    case 'SET_FILE':
+      return { ...state, fileId: action.payload._id };
+    default:
+      return state;
+  }
+}
 
 const persistConfig = {
   key: 'root',
   storage,
-  whiltelist: ['userDetails']
+  whiltelist: ['userDetails', 'active']
 }
 
 
-const rootReducer = combineReducers(
-  { userDetails: userDetailsReducer }
-);
+const rootReducer = combineReducers({
+  userDetails: userDetailsReducer,
+  active: activeStateReducer
+});
 
 export default persistReducer(persistConfig, rootReducer);

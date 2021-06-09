@@ -23,9 +23,12 @@
 .user-files-header div{
   cursor: pointer;
 }
-.user-files-header div,.user-files-header h2{
-  flex-grow: 1;
+.user-files-header h2{
+  flex-grow: 15;
   flex-shrink: 1;
+}
+.user-files-header button{
+  flex-grow: 1;
 }
 .user-files-content{
   display: flex;
@@ -33,19 +36,4 @@
   padding: .5rem 0;
 }
 
-.file{
-  cursor: pointer;
-  padding: .1rem;
-  width:100%;
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-.active{
-  background-color: aqua;
-}
-
-.file * {
-  flex-grow:1;
-}
 

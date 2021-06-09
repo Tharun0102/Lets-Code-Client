@@ -9,11 +9,15 @@ import './ProjectHome.css';
 
 
 export default function ProjectHome() {
-  const { projectId } = useParams()
-  const user = useSelector(state => state.user)
+  const { projectId } = useParams();
+  const user = useSelector(state => state.user);
+  const activeState = useSelector(state => state.active);
   return (
     <div className="project-home">
-      <FilesList />
+      <FilesList
+        projectId={activeState.projectId}
+        name={projectId}
+      />
       <Editor />
       <Console />
     </div>

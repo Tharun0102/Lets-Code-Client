@@ -1,24 +1,51 @@
-import React, { useRef } from 'react';
+import React, { useState } from 'react';
+import FileOptions from './FileOptions';
+import * as api from '../../api';
+import { useSelector } from 'react-redux';
+
+import './file.css';
 
 export default function File(props) {
-  const fileRef = useRef(null);
-  const fileClickHandler = () => {
-    document.querySelectorAll('.file').forEach(file => {
-      file.classList.remove('active');
-    });
-    fileRef.current.classList.add('active');
+  const [showOptions, setShowOptions] = useState(false);
+  const [name, setName] = useState('');
+  const [renameActive, setRenameActive] = useState(false);
+  const toggle = () => setShowOptions(!showOptions);
+  const user = useSelector(state => state.userDetails)
+  const activeState = useSelector(state => state.active)
+
+  const renameHandler = () => {
+    setRenameActive(true);
+    setShowOptions(false);
   }
+  const deleteHandler = async () => {
+    await api.deleteFile({ id: user.id, projectId: activeState.projectId, fileId: props.file._id }).catch(err => console.error(err));
+    setShowOptions(false);
+    props.setFetchFiles(prev => !prev);
+  }
+
   return (
-    <div ref={fileRef} className="file" onClick={fileClickHandler}>
-      <div>{props.file.name}</div>
-      <div style={{ textAlign: 'right' }}>
-        <button>
-          <svg width="18" height="18" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" fill="transparent" class="jsx-1020867274 " >
-            <path d="M12 13C12.5523 13 13 12.5523 13 12C13 11.4477 12.5523 11 12 11C11.4477 11 11 11.4477 11 12C11 12.5523 11.4477 13 12 13Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M12 6C12.5523 6 13 5.55228 13 5C13 4.44772 12.5523 4 12 4C11.4477 4 11 4.44772 11 5C11 5.55228 11.4477 6 12 6Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-            <path d="M12 20C12.5523 20 13 19.5523 13 19C13 18.4477 12.5523 18 12 18C11.4477 18 11 18.4477 11 19C11 19.5523 11.4477 20 12 20Z" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
-          </svg>
-        </button>
+    <div className="file"    >
+      <p>{name}</p>
+      <div
+        className="left"
+        contentEditable={renameActive}
+        onChange={(e) => setName(e.target.value)}
+        value={name}
+      >
+        {props.file.name}
+      </div>
+      <div className="right">
+        <button onClick={toggle} >
+          op
+      </button>
+        {showOptions &&
+          <FileOptions
+            show={showOptions}
+            setShowOptions={setShowOptions}
+            renameHandler={renameHandler}
+            deleteHandler={deleteHandler}
+          />
+        }
       </div>
     </div>
   )

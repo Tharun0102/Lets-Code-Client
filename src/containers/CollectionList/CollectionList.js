@@ -8,6 +8,7 @@ import * as userActions from '../../redux/actions/User';
 import './CollectionList.css';
 import './projectModal.css';
 import './deleteModal.css';
+import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
 const defaultProjectState = { name: '', type: 'java', isFav: false, error: '' };
 
@@ -20,16 +21,18 @@ export default function CollectionList() {
   const [Loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const getProjects = () => {
+    const getProjects = async () => {
       setLoading(true);
       api.getUserProjects({ id: user.id })
         .then((res) => {
-          setLoading(false);
           dispatch(userActions.INIT_PROJECTS(res.data));
+          setLoading(false);
         })
-        .catch(error =>
-          console.log(error)
-        )
+        .catch(error => {
+          console.error(error);
+          setLoading(false)
+        })
+
     }
     getProjects();
   }, [])
@@ -100,9 +103,8 @@ export default function CollectionList() {
         <h2 className="title">{`${user.name}'s Projects`}</h2>
         <button onClick={openAddModal}>ADD</button>
       </div>
-      {Loading && <span style={{ fontSize: '30px' }}>Loading...</span>}
-
-      {
+      {Loading && <LoadingSpinner />}
+      {!Loading &&
         user.projects.map(project => {
           if (!project) return <span></span>
           return <Project

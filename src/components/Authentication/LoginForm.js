@@ -32,7 +32,6 @@ export function LoginForm() {
     const user = await api.getUser({ "name": formData.name, "password": formData.password });
 
     if (user && user.data) {
-      localStorage.setItem('user', JSON.stringify(user.data));
       dispatch({ type: 'SIGN_IN', payload: user.data });
       setFormData(initialState);
     } else {
@@ -48,7 +47,6 @@ export function LoginForm() {
     // has registered email
     const user = await api.getUser({ "email": profile.email });
     if (user.data) {
-      localStorage.setItem('user', JSON.stringify(user.data));
       dispatch({ type: 'SIGN_IN', payload: user.data });
     } else {
       userActions.createUser({ name: profile.name, email: profile.email });
