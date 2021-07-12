@@ -16,7 +16,7 @@ export const getUserProjects = async (userData) => await axios.get(
 );
 
 //projects
-export const findProjectById = async (query) => await axios.get(
+export const getProjectById = async (query) => await axios.get(
   `${baseURL}/users/${query.userId}/projects/${query.projectId}`, { params: query }
 );
 
@@ -51,3 +51,6 @@ export const deleteFile = async (data) => {
     { data: data }
   );
 }
+export const updateFile = (query) => axios.patch(
+  `${baseURL}/users/${query.id}/projects/${query.projectId}/files/${query._id}`, query
+);

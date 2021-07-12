@@ -55,12 +55,14 @@ const userDetailsReducer = (state = { isLogged: false }, action) => {
       return state;
   }
 }
-const activeStateReducer = (state = { projectId: '', fileId: '' }, action) => {
+const activeStateReducer = (state = { projectId: '', fileId: '', runButton: false }, action) => {
   switch (action.type) {
     case 'SET_PROJECT':
       return { ...state, projectId: action.payload._id };
     case 'SET_FILE':
       return { ...state, fileId: action.payload._id };
+    case 'SET_BUTTON':
+      return { ...state, runButton: true }
     default:
       return state;
   }
@@ -69,7 +71,7 @@ const activeStateReducer = (state = { projectId: '', fileId: '' }, action) => {
 const persistConfig = {
   key: 'root',
   storage,
-  whiltelist: ['userDetails', 'active']
+  whiltelist: ['userDetails', 'active', 'activeState']
 }
 
 

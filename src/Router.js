@@ -1,16 +1,14 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { BrowserRouter, Switch, Redirect, Route } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Home from './components/Home/Home';
 import NewUserHome from './components/newUserHome/NewUserHome';
 import Header from './components/Header/Header';
 import Auth from './components/Authentication/Auth';
 import ProjectHome from './containers/ProjectHome/ProjectHome';
-import * as api from './api';
 
 
 export default function Router() {
-  const dispatch = useDispatch();
   const user = useSelector(state => state.userDetails);
   const isLogged = user.isLogged;
 

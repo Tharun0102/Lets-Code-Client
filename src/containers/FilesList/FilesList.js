@@ -9,13 +9,13 @@ export default function FilesList(props) {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
   const [fileModal, setFileModal] = useState(false);
-  const [fileName, setFileName] = useState('');
+  const [fileState, setFileState] = useState({ name: '', error: '' });
   const [fetchFiles, setFetchFiles] = useState(true);
   const user = useSelector(state => state.userDetails);
 
   useEffect(() => {
     setLoading(true);
-    api.getProjectFiles({ _id: props.projectId })
+    api.getProjectFiles({ id: user.id, projectId: props.projectId })
       .then((res) => {
         console.log(res.data);
         Promise.all(res.data.map(async (fileId) => {
@@ -38,9 +38,15 @@ export default function FilesList(props) {
   }
   const closeFileModal = () => {
     setFileModal(false);
+    setFileState({ name: '', errror: '' });
   }
   const addFile = async () => {
-    const res = await api.createFile({ id: user.id, projectId: props.projectId, name: fileName });
+    const fileNameExists = files.filter(file => file.name === fileState.name).length > 0;
+    if (fileNameExists) {
+      setFileState({ ...fileState, error: 'file name exists!' })
+      return;
+    }
+    const res = await api.createFile({ id: user.id, projectId: props.projectId, name: fileState.name });
     console.log(res.data);
     setFiles([...files, res.data]);
     closeFileModal();
@@ -61,9 +67,10 @@ export default function FilesList(props) {
         <input
           placeholder="name"
           type="text"
-          onChange={(e) => setFileName(e.target.value)}
-          value={fileName}
+          onChange={(e) => setFileState({ ...fileState, name: e.target.value })}
+          value={fileState.name}
         />
+        <span style={{ color: 'red' }}>{fileState.error}</span>
       </Modal>
       }
       {loading && <LoadingSpinner />}

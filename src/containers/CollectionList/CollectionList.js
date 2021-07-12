@@ -10,7 +10,7 @@ import './projectModal.css';
 import './deleteModal.css';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
 
-const defaultProjectState = { name: '', type: 'java', isFav: false, error: '' };
+const defaultProjectState = { name: '', type: 'C', isFav: false, error: '' };
 
 export default function CollectionList() {
   const dispatch = useDispatch();
@@ -25,7 +25,8 @@ export default function CollectionList() {
       setLoading(true);
       api.getUserProjects({ id: user.id })
         .then((res) => {
-          dispatch(userActions.INIT_PROJECTS(res.data));
+          const projects = res.data.filter(p => p !== null)
+          dispatch(userActions.INIT_PROJECTS(projects));
           setLoading(false);
         })
         .catch(error => {
@@ -72,7 +73,7 @@ export default function CollectionList() {
   return (
     <div className="folder-list">
 
-      { addModal && <Modal
+      {addModal && <Modal
         show={addModal}
         onCancel={closeAddModal}
         footer={<React.Fragment>
@@ -93,8 +94,11 @@ export default function CollectionList() {
           placeholder="language"
           defaultValue="java"
         >
-          <option>java</option>
-          <option>python</option>
+          <option>C</option>
+          <option>C++</option>
+          <option>Java</option>
+          <option>JavaScript</option>
+          <option>Python</option>
         </select>
       </Modal>
       }
