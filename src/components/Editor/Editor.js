@@ -16,11 +16,9 @@ export default function Editor(props) {
 
   useEffect(() => {
     const check = async () => {
-      console.log("check");
       const files = await (await api.getProjectFiles({ id: user.id, projectId: activeState.projectId })).data;
 
       const hasActiveFile = files?.includes(activeState.fileId);
-      console.log(hasActiveFile);
       if (!hasActiveFile) {
         dispatch({ type: 'SET_FILE', payload: { _id: null } })
       }
@@ -30,13 +28,12 @@ export default function Editor(props) {
 
   const getType = async () => {
     const project = await api.getProjectById({ userId: user.id, projectId: activeState.projectId });
-    console.log(project)
     return project?.data?.type;
   }
   const runCodeHandler = async () => {
     setOutputLoading(true);
     const languageType = await getType();
-    const res = await judge.run(languageType, editorRef.current?.getValue());
+    const res = await judge.run(languageType, editorRef.current?.getValue(), props.input);
     setOutput(res)
     setOutputLoading(false);
   }
@@ -62,7 +59,6 @@ export default function Editor(props) {
       data: editorRef.current?.getValue()
     })
       .then(() => {
-        console.log("done");
         setSaving(false);
       })
       .catch(err => console.error(err))
@@ -85,7 +81,7 @@ export default function Editor(props) {
 
           <MonacoEditor
             height="90vh"
-            theme="Monokai"
+            theme="vs-dark"
             defaultLanguage="python"
             defaultValue="// some comment"
             onMount={handleEditorDidMount}

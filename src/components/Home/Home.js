@@ -12,10 +12,8 @@ export default function Home() {
 
   useEffect(() => {
     const get = async () => {
-      console.log(user);
       const fetched = await api.getUser({ name: user.name, email: user.email });
       if (fetched && fetched.data !== '') {
-        console.log("home");
         dispatch({
           type: 'SIGN_IN',
           payload: fetched.data

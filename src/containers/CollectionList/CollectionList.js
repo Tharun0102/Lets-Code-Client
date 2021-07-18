@@ -117,6 +117,9 @@ export default function CollectionList() {
           />
         })
       }
+      {!Loading && user.projects.length == 0 &&
+        <div style={{ fontSize: 20, fontFamily: 'sans-serif', padding: '1rem' }}>No Projects to show,try adding one!</div>
+      }
     </div>
   )
 }

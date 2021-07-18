@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const run = async (languageType, code) => {
+export const run = async (languageType, code, input) => {
   // req1 for token
   const headers = {
     'Content-Type': 'application/json',
@@ -9,7 +9,8 @@ export const run = async (languageType, code) => {
   }
   const data = {
     "source_code": code,
-    "language_id": languageCode[languageType]
+    "language_id": languageCode[languageType],
+    "stdin": input
   }
   const res1 = await axios.post('https://judge0-ce.p.rapidapi.com/submissions',
     data,

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import File from './File';
 import './userFiles.css';
 
@@ -16,7 +16,7 @@ export default function UserFiles(props) {
       </h2>
       <div className="user-files-header">
         <h2>Files</h2>
-        <button onClick={props.createFileHandler}>ADD</button>
+        <button onClick={props.createFileHandler}>➕</button>
       </div>
       <div className="user-files-content">
         {props.files &&

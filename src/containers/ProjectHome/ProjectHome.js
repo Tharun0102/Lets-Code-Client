@@ -13,6 +13,7 @@ export default function ProjectHome() {
   const activeState = useSelector(state => state.active);
   const [output, setOutput] = useState({});
   const [outputLoading, setOutputLoading] = useState(false);
+  const [input, setInput] = useState('2 4')
   return (
     <div className="project-home">
       <FilesList
@@ -22,10 +23,13 @@ export default function ProjectHome() {
       <Editor
         setOutput={setOutput}
         setOutputLoading={setOutputLoading}
+        input={input}
       />
       <Console
         output={output}
         outputLoading={outputLoading}
+        input={input}
+        setInput={setInput}
       />
     </div>
   )

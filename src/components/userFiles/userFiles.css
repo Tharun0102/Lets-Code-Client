@@ -19,6 +19,7 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  padding: .5rem 0;
 }
 .user-files-header div{
   cursor: pointer;

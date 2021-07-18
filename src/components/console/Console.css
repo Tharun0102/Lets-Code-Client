@@ -1,3 +1,54 @@
 .console{
   height:100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding:0 1rem 1rem 1rem;
+  overflow: auto;
+  background-color: black;
+  color:white;
+  font-family:Arial;
+}
+.output h2{
+  padding: .5rem;
+  font-size: 24px;
+  height:45px;
+  font-weight: 500;
+  background-color: #272727;
+  border-bottom: 2px solid blueviolet;
+}
+.output{
+  height: 45%;
+  border: 2px solid brown;
+}
+.output-content{
+  padding: .3rem;
+  overflow: auto;
+  height: calc(100% - 45px);
+}
+.run-time{
+  padding-top: 1rem;
+}
+.input{
+  height:45%;
+  border: 2px solid brown;
+}
+.input h2{
+  background-color: #272727;
+  font-weight: 500;
+  height: 45px;
+  padding: .5rem;
+  border-bottom: 2px solid blueviolet;
+}
+.input textarea{
+  width: 100%;
+  height:calc(100% - 45px);
+  border-style: none;
+  overflow:auto;
+  color:white !important;
+  padding: .3rem;
+  background-color: rgb(26, 16, 16);
+}
+.input textarea:focus{
+  outline-style: none;
 }

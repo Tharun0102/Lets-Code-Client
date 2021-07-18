@@ -1,7 +1,5 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import Router from '../../Router';
 import './NewUserHome.css';
 
 export default function NewUserHome() {

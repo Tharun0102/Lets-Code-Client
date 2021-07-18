@@ -31,7 +31,6 @@ function Project(props) {
   }
 
   const goToProject = () => {
-    console.log("goToProject");
     dispatch({ type: 'SET_PROJECT', payload: { _id: props.project._id } })
   }
 
@@ -46,7 +45,7 @@ function Project(props) {
       }
       header="Delete Project"
     >
-      <p style={{ fontSize: '25px' }}>Are u sure to delete?</p>
+      <p style={{ fontSize: '25px' }}>Are you sure you want to delete?</p>
 
     </Modal>
     }

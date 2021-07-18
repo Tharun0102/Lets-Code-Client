@@ -22,6 +22,8 @@
   overflow: visible;
   z-index:100;
   margin: 1rem;
+  outline: none;
+  outline-style: none;
 }
 .editor-menu button:disabled{
   background-color: rgb(158, 158, 235);

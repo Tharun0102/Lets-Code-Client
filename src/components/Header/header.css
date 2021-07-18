@@ -5,7 +5,7 @@
   height:10vh;
   display:flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: baseline;font-family: Arial;
 }
 
 .header-left{

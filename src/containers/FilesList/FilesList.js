@@ -11,18 +11,17 @@ export default function FilesList(props) {
   const [fileModal, setFileModal] = useState(false);
   const [fileState, setFileState] = useState({ name: '', error: '' });
   const [fetchFiles, setFetchFiles] = useState(true);
+  const [projectDetails, setProjectDetails] = useState({});
   const user = useSelector(state => state.userDetails);
 
   useEffect(() => {
     setLoading(true);
     api.getProjectFiles({ id: user.id, projectId: props.projectId })
       .then((res) => {
-        console.log(res.data);
         Promise.all(res.data.map(async (fileId) => {
           const res = await api.getFile({ id: user.id, projectId: props.projectId, _id: fileId });
           return res.data;
         })).then((FILES) => {
-          console.log(FILES);
           setFiles(FILES);
           setLoading(false);
         })
@@ -31,6 +30,12 @@ export default function FilesList(props) {
         console.error(err);
         setLoading(false);
       })
+    api.getProjectById({
+      userId: user.id,
+      projectId: props.projectId
+    }).then((res) => {
+      setProjectDetails(res.data);
+    })
   }, [fetchFiles]);
 
   const openFileModal = () => {
@@ -46,14 +51,12 @@ export default function FilesList(props) {
       setFileState({ ...fileState, error: 'file name exists!' })
       return;
     }
-    const res = await api.createFile({ id: user.id, projectId: props.projectId, name: fileState.name });
-    console.log(res.data);
+    const res = await api.createFile({ id: user.id, projectId: props.projectId, name: fileState.name, type: projectDetails.type });
     setFiles([...files, res.data]);
     closeFileModal();
   }
-
   return (
-    <div className="files-list">
+    <div className="files-list" style={{ fontFamily: 'sans-serif' }}>
       {fileModal && <Modal
         show={fileModal}
         onCancel={closeFileModal}
