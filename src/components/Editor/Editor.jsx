@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as judge from '../../api/judge0';
 import * as api from '../../api';
 import MonacoEditor from "@monaco-editor/react";
@@ -8,22 +8,13 @@ import './Editor.css'
 
 export default function Editor(props) {
   const { setOutputLoading, setOutput } = props;
-  const [saving, setSaving] = useState(false)
+  const [saving, setSaving] = useState(false);
   const editorRef = useRef(null);
   const user = useSelector(state => state.userDetails);
   const activeState = useSelector(state => state.active);
-  const dispatch = useDispatch();
 
   useEffect(() => {
-    const check = async () => {
-      const files = await (await api.getProjectFiles({ id: user.id, projectId: activeState.projectId })).data;
-
-      const hasActiveFile = files?.includes(activeState.fileId);
-      if (!hasActiveFile) {
-        dispatch({ type: 'SET_FILE', payload: { _id: null } })
-      }
-    }
-    check();
+    refreshEditor();
   }, [activeState.fileId]);
 
   const getType = async () => {
@@ -38,13 +29,16 @@ export default function Editor(props) {
     setOutputLoading(false);
   }
 
-  const handleEditorDidMount = async (editor, monaco) => {
+  const handleEditorDidMount = async (editor) => {
+    editorRef.current = editor;
+    refreshEditor();
+  }
+  const refreshEditor = async () => {
     const file = await api.getFile({
       id: user.id,
       projectId: activeState.projectId,
       _id: activeState.fileId
     })
-    editorRef.current = editor;
     if (file.data) {
       editorRef.current?.setValue(file.data.body);
     }

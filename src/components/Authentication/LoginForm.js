@@ -79,9 +79,8 @@ export function LoginForm() {
       </div>
       <button className="submit-btn">Login</button>
       <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
-      {/* google-client-secret:Ur24hyV4Lt9BpJpE4mT52eVX */}
       <GoogleLogin
-        clientId="325494090646-sulug0movv3sqic1fhipt82ssj2inast.apps.googleusercontent.com"
+        clientId={process.env.GOOGLE_CLIENTID}
         onSuccess={googleResponse}
         onFailure={googleResponse}
       />

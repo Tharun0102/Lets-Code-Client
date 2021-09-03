@@ -77,7 +77,7 @@ const persistConfig = {
 
 const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
-  active: activeStateReducer
+  active: activeStateReducer,
 });
 
 export default persistReducer(persistConfig, rootReducer);

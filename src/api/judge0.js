@@ -4,7 +4,7 @@ export const run = async (languageType, code, input) => {
   // req1 for token
   const headers = {
     'Content-Type': 'application/json',
-    'x-rapidapi-key': '3378c8ad47msh3e629fdb4b833aep1133e1jsn217dcb0c1c38',
+    'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
     'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
   }
   const data = {
@@ -18,6 +18,7 @@ export const run = async (languageType, code, input) => {
   ).catch(function (error) {
     console.error(error);
   });
+  console.log(res1, process.env.REACT_APP_RAPIDAPI_KEY);
   const token = res1?.data?.token;
 
   // req2 for output
