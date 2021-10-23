@@ -4,6 +4,7 @@ import { LoginForm } from './LoginForm';
 import { useSelector } from 'react-redux';
 import { SignupForm } from './SignupForm';
 import { Redirect } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 export default function Auth() {
   const userDetails = useSelector(state => state.userDetails);
@@ -15,8 +16,14 @@ export default function Auth() {
   } else {
     return (
       <div className="auth">
-        {active === 'login' && <button className="toggle-btn" onClick={() => setActive("signup")} >Signup</button>}
-        {active === 'signup' && <button className="toggle-btn" onClick={() => setActive("login")} > Login</button>}
+        <Button
+          onClick={() => setActive(active === 'login'?"signup":"login")}
+          className="toggle-btn"
+          variant="contained"
+          color="primary"
+        >
+          {active === 'login'?"signup":"login"}
+        </Button>
         <div className="auth-form">
           {active === 'signup' && <SignupForm />}
           {active === 'login' && <LoginForm />}

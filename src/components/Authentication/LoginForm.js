@@ -5,7 +5,9 @@ import * as api from '../../api/index';
 import { GoogleLogin } from 'react-google-login';
 import * as userActions from '../../redux/actions/User';
 
-import './form.css';
+import './form.scss';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
 
 export function LoginForm() {
   const initialState = {
@@ -54,7 +56,7 @@ export function LoginForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate >
+    <Box className="form-container">
       <div className="input-container">
         <input
           className={`${formData.nameError === '' ? '' : "input-error"}`}
@@ -77,13 +79,20 @@ export function LoginForm() {
         />
         {formData.passwordError !== '' && <span className="error-msg">{formData.passwordError}</span>}
       </div>
-      <button className="submit-btn">Login</button>
+      <Button 
+        variant="contained"
+        color="primary" 
+        className="submit-btn"
+        onClick={handleSubmit}
+      >
+        Login
+      </Button>
       <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
       <GoogleLogin
         clientId={process.env.GOOGLE_CLIENTID}
         onSuccess={googleResponse}
         onFailure={googleResponse}
       />
-    </form>
+    </Box>
   );
 }

@@ -1,7 +1,8 @@
 import React from 'react';
-import './header.css';
+import './header.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
+import { Button } from '@mui/material';
 
 export default function Header() {
   const userDetails = useSelector(state => state.userDetails);
@@ -18,7 +19,7 @@ export default function Header() {
       </div>
       <div className="header-right">
         <div className="welcome-text">Hello,{userDetails.name}</div>
-        <button onClick={logout} className="auth-btn">logout</button>
+        <Button onClick={logout} variant="contained" className="auth-btn logout-btn">logout</Button>
       </div>
     </div>
   ) : (
@@ -31,10 +32,10 @@ export default function Header() {
       <div className="header-right">
         <div className="auth-option">
           <Link to="/auth">
-            <button className="auth-btn">signup</button>
+            <Button variant="contained" className="auth-btn" color="primary">signup</Button>
           </Link>
           <Link to="/auth">
-            <button className="auth-btn">login</button>
+            <Button variant="contained" className="auth-btn" color="primary">login</Button>
           </Link>
         </div>
       </div>

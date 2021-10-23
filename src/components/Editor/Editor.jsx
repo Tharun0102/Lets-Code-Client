@@ -3,8 +3,9 @@ import { useSelector } from 'react-redux';
 import * as judge from '../../api/judge0';
 import * as api from '../../api';
 import MonacoEditor from "@monaco-editor/react";
+import Button from '@mui/material/Button';
 
-import './Editor.css'
+import './Editor.scss'
 
 export default function Editor(props) {
   const { setOutputLoading, setOutput } = props;
@@ -55,7 +56,10 @@ export default function Editor(props) {
       .then(() => {
         setSaving(false);
       })
-      .catch(err => console.error(err))
+      .catch(err =>{
+        setSaving(false);
+        console.error(err)
+      })
   }
 
   const handleChange = () => {
@@ -74,7 +78,7 @@ export default function Editor(props) {
         <div className="editor">
 
           <MonacoEditor
-            height="90vh"
+            height="calc(100vh - 60px)"
             theme="vs-dark"
             defaultLanguage="python"
             defaultValue="// some comment"
@@ -82,8 +86,23 @@ export default function Editor(props) {
             onChange={handleChange}
           />
           <div className="editor-menu">
-            <button onClick={saveCodeHandler} disabled={saving}>{saving ? "saving.." : "save"}</button>
-            <button onClick={runCodeHandler}>RUN</button>
+            <Button 
+              variant="contained"
+              onClick={saveCodeHandler} 
+              disabled={saving}
+              className="save-btn"
+              color="primary"
+            >
+              {saving ? "saving.." : "save"}
+            </Button>
+            <Button 
+              variant="contained"
+              onClick={runCodeHandler} 
+              className="run-btn"
+              color="primary"
+            >
+              Run
+            </Button>
           </div>
         </div>
       }

@@ -4,16 +4,18 @@
   font-size: 1.5em;
   margin:.5rem;
   padding: 1rem;
-  background-color: aqua;
+  background-color: #1A1D1F;
+  color: #FFFFFF;
   width:100%;
   display: flex;
   justify-content: flex-end;
   align-items: center;
   transition: all .3s;
+  border: 1px solid #1A1D1F;
+  font-size: 20px;
 }
 .project:hover{
-  transform: scale(1.02,1.1);
-  
+  border: 1px solid #FFFFFF;
 }
 .project-title{
   width:60%;

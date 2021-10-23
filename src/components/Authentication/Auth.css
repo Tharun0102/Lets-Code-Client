@@ -1,11 +1,12 @@
 .auth{
   position: absolute;
+  min-width: 400px;
   max-height:90%;
+  min-height: 450px;
   border: 2px solid black;
-  /* display: grid;
-  place-items: center; */
-  left:35%;
-  right:35%;
+  left:50%;
+  right:50%;
+  transform: translateX(-50%);
   top:20%;
   bottom:20%;
   font-family: Arial;
@@ -15,4 +16,6 @@
   width:100%;
   border:none;
   font-size: 30px;
+  height: 50px;
+  border-radius: 0 !important;
 }

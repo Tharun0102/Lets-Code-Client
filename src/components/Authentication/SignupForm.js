@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import './form.css';
+import './form.scss';
 import { useDispatch } from 'react-redux';
 import * as userActions from '../../redux/actions/User';
 import validateInfo from './validation';
 import * as api from '../../api/index';
 import { GoogleLogin } from 'react-google-login';
+import { Button } from '@mui/material';
+import { Box } from '@mui/system';
 
 export function SignupForm() {
   const [formData, setFormData] = useState({
@@ -64,7 +66,7 @@ export function SignupForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} noValidate >
+    <Box className="form-container">
       <div className="input-container" >
         <input
           className={`${formData.emailError === '' ? '' : "input-error"}`}
@@ -98,7 +100,14 @@ export function SignupForm() {
         />
         {formData.passwordError !== '' && <span className="error-msg">{formData.passwordError}</span>}
       </div>
-      <button className="submit-btn">Signup</button>
+      <Button
+        variant="contained"
+        color="primary"
+        className="submit-btn"
+        onClick={handleSubmit}
+      >
+        Signup
+      </Button>
       <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
       
       <GoogleLogin
@@ -106,6 +115,6 @@ export function SignupForm() {
         onSuccess={googleResponse}
         onFailure={googleResponse}
       />
-    </form>
+    </Box>
   );
 }
