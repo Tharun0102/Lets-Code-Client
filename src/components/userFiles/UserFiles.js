@@ -1,5 +1,6 @@
 import React from 'react';
 import File from './File';
+import AddBoxIcon from '@mui/icons-material/AddBox';
 import './userFiles.css';
 
 export default function UserFiles(props) {
@@ -16,7 +17,7 @@ export default function UserFiles(props) {
       </h2>
       <div className="user-files-header">
         <h2>Files</h2>
-        <button onClick={props.createFileHandler}>➕</button>
+        <div onClick={props.createFileHandler} className="add-icon"><AddBoxIcon/></div>
       </div>
       <div className="user-files-content">
         {props.files &&

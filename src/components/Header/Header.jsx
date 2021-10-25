@@ -14,7 +14,7 @@ export default function Header() {
     <div className="header">
       <div className="header-left">
         <Link to="/home" >
-          <div className="title">FORMUP</div>
+          <div className="title">Lets Code</div>
         </Link >
       </div>
       <div className="header-right">

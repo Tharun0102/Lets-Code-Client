@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import './Project.scss';
-import Modal from '../Modal/Modal';
+import Modal from '@mui/material/Modal';
 import * as api from '../../api';
 import * as userActions from '../../redux/actions/User';
 

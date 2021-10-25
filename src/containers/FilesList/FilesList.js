@@ -2,8 +2,14 @@ import React, { useEffect, useState } from 'react'
 import UserFiles from '../../components/userFiles/UserFiles';
 import * as api from '../../api';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import Modal from '../../components/Modal/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
 import { useSelector } from 'react-redux';
+
+import './styles.scss';
+import { TextField } from '@mui/material';
 
 export default function FilesList(props) {
   const [files, setFiles] = useState([]);
@@ -58,22 +64,39 @@ export default function FilesList(props) {
   return (
     <div className="files-list" style={{ fontFamily: 'sans-serif' }}>
       {fileModal && <Modal
-        show={fileModal}
-        onCancel={closeFileModal}
-        footer={<React.Fragment>
-          <button onClick={addFile}>ADD</button>
-          <button onClick={closeFileModal}>CANCEL</button>
-        </React.Fragment>
-        }
-        header="Add File"
+        open={fileModal}
+        onClose={closeFileModal}
+        className="modal-style"
       >
-        <input
-          placeholder="name"
-          type="text"
-          onChange={(e) => setFileState({ ...fileState, name: e.target.value })}
-          value={fileState.name}
-        />
-        <span style={{ color: 'red' }}>{fileState.error}</span>
+        <Box className="addFile-modal">
+          <Typography className="modal-title">Add File</Typography>
+          <Box className="modal-content">
+            <TextField
+              placeholder="name"
+              type="text"
+              onChange={(e) => setFileState({ ...fileState, name: e.target.value })}
+              value={fileState.name}
+              className="input-name"
+            />
+            <span style={{ color: 'red' }}>{fileState.error}</span>
+          </Box>          
+          <Box className="modal-footer">
+            <Button
+              onClick={closeFileModal}
+              variant="outlined"
+              className="cancel-btn"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={addFile}
+              variant="contained"
+              className="confirm-btn"
+            >
+              Confirm
+            </Button>
+          </Box>
+        </Box>
       </Modal>
       }
       {loading && <LoadingSpinner />}

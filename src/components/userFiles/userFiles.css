@@ -28,9 +28,11 @@
   flex-grow: 15;
   flex-shrink: 1;
 }
-.user-files-header button{
-  flex-grow: 1;
+.user-files-header .add-icon{
+  padding: 0;
+  cursor: pointer;
 }
+
 .user-files-content{
   display: flex;
   flex-direction: column;

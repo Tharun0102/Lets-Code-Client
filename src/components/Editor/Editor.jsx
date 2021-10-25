@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as judge from '../../api/judge0';
 import * as api from '../../api';
 import MonacoEditor from "@monaco-editor/react";
@@ -10,9 +10,14 @@ import './Editor.scss'
 export default function Editor(props) {
   const { setOutputLoading, setOutput } = props;
   const [saving, setSaving] = useState(false);
+  const dispatch = useDispatch();
   const editorRef = useRef(null);
   const user = useSelector(state => state.userDetails);
   const activeState = useSelector(state => state.active);
+
+  useEffect(()=>{
+    dispatch({ type: 'SET_FILE', payload: { _id: null } })
+  },[])
 
   useEffect(() => {
     refreshEditor();

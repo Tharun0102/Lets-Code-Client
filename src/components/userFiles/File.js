@@ -1,10 +1,13 @@
 import React, { useState } from 'react';
 // import FileOptions from './FileOptions';
-import Modal from '../Modal/Modal';
 import * as api from '../../api';
 import { useSelector, useDispatch } from 'react-redux';
-
-import './file.css';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+import Button from '@mui/material/Button';
+import Modal from '@mui/material/Modal';
+import DeleteIcon from '@mui/icons-material/Delete';
+import './file.scss';
 
 export default function File(props) {
   const [showOptions, setShowOptions] = useState(false);
@@ -44,23 +47,36 @@ export default function File(props) {
 
   return (
     <React.Fragment>
-      {deleteModal && <Modal
-        show={deleteModal}
-        onCancel={closeDeleteModal}
-        footer={<React.Fragment>
-          <button onClick={deleteHandler}>DELETE</button>
-          <button onClick={closeDeleteModal}>CANCEL</button>
-        </React.Fragment>
-        }
-        header="Delete File"
+      {deleteModal &&  <Modal
+        open={deleteModal}
+        onClose={closeDeleteModal}
+        className="modal-style"
       >
-        <p style={{ fontSize: '25px' }}>Are you sure you want to delete?</p>
-
+        <Box className="delete-modal">
+          <Typography className="label-text">Are you sure you want to delete?</Typography>
+          <Typography className="modal-content">on confirming, this file will be deleted permanently</Typography>
+          <Box className="modal-footer">
+            <Button
+              onClick={closeDeleteModal}
+              variant="outlined"
+              className="cancel-btn"
+            >
+              Cancel
+            </Button>
+            <Button
+              onClick={deleteHandler}
+              variant="contained"
+              className="confirm-btn"
+            >
+              Confirm
+            </Button>
+          </Box>
+        </Box>
       </Modal>
       }
       <div
         className="file"
-        style={{ backgroundColor: (props.file._id === activeState.fileId) ? 'darkslateblue' : 'inherit', padding: '0 .3rem', color: 'white' }}
+        style={{ backgroundColor: (props.file._id === activeState.fileId) ? 'darkslateblue' : 'inherit' }}
       >
         <div
           className="left"
@@ -72,7 +88,7 @@ export default function File(props) {
           {props.file.name}
         </div>
         <div className="right">
-          <div onClick={openDeleteModal}>❌</div>
+          <div onClick={openDeleteModal}><DeleteIcon/></div>
 
           {/* for multiple options like rename */}
           {/* <button onClick={toggle} >
