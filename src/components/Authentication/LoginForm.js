@@ -8,7 +8,6 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
-import Swal from 'sweetalert2';
 import cogoToast from 'cogo-toast';
 
 export function LoginForm() {

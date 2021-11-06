@@ -2,11 +2,9 @@ import React, { useState } from 'react';
 import './form.scss';
 import { useDispatch } from 'react-redux';
 import validateInfo from './validation';
-import { GoogleLogin } from 'react-google-login';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
-import Swal from 'sweetalert2';
 import cogoToast from 'cogo-toast';
 import { signup } from '../../api/Auth';
 
@@ -69,9 +67,6 @@ export function SignupForm() {
   //       });
   //   }
   // }
-  const handleMouseDownPassword = (event) => {
-    event.preventDefault();
-  };
 
   return (
     <Box className="form-container">
