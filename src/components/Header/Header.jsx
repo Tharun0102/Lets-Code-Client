@@ -3,12 +3,14 @@ import './header.scss';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
+import cogoToast from 'cogo-toast';
 
 export default function Header() {
   const userDetails = useSelector(state => state.userDetails);
   const dispatch = useDispatch();
   const logout = () => {
     dispatch({ type: 'LOG_OUT' });
+    cogoToast.success("logged out successfully!");
   }
   const content = (userDetails.isLogged) ? (
     <div className="header">

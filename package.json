@@ -6,6 +6,7 @@
   "dependencies": {
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
+    "@mapbox/node-pre-gyp": "^1.0.6",
     "@monaco-editor/react": "^4.2.1",
     "@mui/icons-material": "^5.0.4",
     "@mui/material": "^5.0.4",
@@ -13,7 +14,9 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.21.1",
+    "bcryptjs": "^2.4.3",
     "codemirror": "^5.62.0",
+    "cogo-toast": "^4.2.3",
     "monaco-editor": "^0.25.2",
     "node-sass": "^6.0.1",
     "prettier": "^2.3.2",
@@ -27,6 +30,7 @@
     "react-transition-group": "^4.4.2",
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
+    "sweetalert2": "^11.1.9",
     "web-vitals": "^1.1.2",
     "xterm-for-react": "^1.0.4"
   },

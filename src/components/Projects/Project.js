@@ -5,7 +5,11 @@ import './Project.scss';
 import Modal from '@mui/material/Modal';
 import * as api from '../../api';
 import * as userActions from '../../redux/actions/User';
-
+import StarBorderIcon from '@mui/icons-material/StarBorder';
+import StarIcon from '@mui/icons-material/Star';
+import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
+import { Button, Typography } from '@mui/material';
+import { Box } from '@mui/system';
 function Project(props) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userDetails);
@@ -24,7 +28,7 @@ function Project(props) {
     api.toggleFavourite({ id: user.id, projectId: props.project._id });
   }
 
-  const deleteProjectHandler = async (e) => {
+  const deleteHandler = async (e) => {
     await api.deleteProject({ id: user.id, projectId: props.project._id });
     dispatch(userActions.DELETE_PROJECT({ _id: props.project._id }));
     closeDeleteModal();
@@ -36,17 +40,30 @@ function Project(props) {
 
   return <React.Fragment>
     {deleteModal && <Modal
-      show={deleteModal}
-      onCancel={closeDeleteModal}
-      footer={<React.Fragment>
-        <button onClick={deleteProjectHandler}>DELETE</button>
-        <button onClick={closeDeleteModal}>CANCEL</button>
-      </React.Fragment>
-      }
-      header="Delete Project"
+      open={deleteModal}
+      onClose={closeDeleteModal}
+      className="modal-style"
     >
-      <p style={{ fontSize: '25px' }}>Are you sure you want to delete?</p>
-
+      <Box className="delete-modal">
+        <Typography className="label-text">Are you sure you want to delete?</Typography>
+        <Typography className="modal-content">on confirming, this Project will be deleted permanently</Typography>
+        <Box className="modal-footer">
+          <Button
+            onClick={closeDeleteModal}
+            variant="outlined"
+            className="cancel-btn"
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={deleteHandler}
+            variant="contained"
+            className="confirm-btn"
+          >
+            Confirm
+          </Button>
+        </Box>
+      </Box>
     </Modal>
     }
     <div className="project">
@@ -54,8 +71,10 @@ function Project(props) {
         <div onClick={goToProject} >{props.project.name}</div>
       </Link>
       <div className="project-controls">
-        <div onClick={toggleFavourite}>{props.project.isFav ? "💘" : "❤️"}</div>
-        <div onClick={openDeleteModal}>❌</div>
+        <div onClick={toggleFavourite}>
+          {props.project.isFav ? <StarIcon /> : <StarBorderIcon />}
+        </div>
+        <div onClick={openDeleteModal}><DeleteTwoToneIcon /></div>
       </div>
     </div >
   </React.Fragment>

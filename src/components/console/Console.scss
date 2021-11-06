@@ -9,17 +9,17 @@
   color:white;
   font-family:Arial;
 }
-.output h2{
+.output .title{
   padding: .5rem;
-  font-size: 24px;
+  font-size: 20px;
   height:45px;
   font-weight: 500;
   background-color: #272727;
-  border-bottom: 2px solid blueviolet;
+  border-bottom: 2px solid rgb(85, 86, 88);
 }
 .output{
   height: 45%;
-  border: 2px solid brown;
+  border: 2px solid rgb(85, 86, 88);
 }
 .output-content{
   padding: .3rem;
@@ -31,14 +31,15 @@
 }
 .input{
   height:45%;
-  border: 2px solid brown;
+  border: 2px solid rgb(85, 86, 88);
 }
-.input h2{
+.input .title{
   background-color: #272727;
   font-weight: 500;
+  font-size: 20px;
   height: 45px;
   padding: .5rem;
-  border-bottom: 2px solid blueviolet;
+  border-bottom: 2px solid rgb(85, 86, 88);
 }
 .input textarea{
   width: 100%;
@@ -48,6 +49,7 @@
   color:white !important;
   padding: .3rem;
   background-color: rgb(26, 16, 16);
+  resize: none;
 }
 .input textarea:focus{
   outline-style: none;

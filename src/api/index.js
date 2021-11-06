@@ -3,12 +3,8 @@ import axios from 'axios';
 const baseURL = 'http://localhost:5000';
 
 //user
-export const getUser = (query) => axios.get(
-  `${baseURL}/users/${query.name}`, { params: query }
-);
-
-export const createUser = (data) => axios.post(
-  `${baseURL}/users/new`, data
+export const getUser = (payload) => axios.post(
+  `${baseURL}/users/user/get`, payload
 );
 
 export const getUserProjects = async (userData) => await axios.get(

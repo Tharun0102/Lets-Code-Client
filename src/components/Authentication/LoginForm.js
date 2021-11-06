@@ -1,19 +1,21 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import validateInfo from './validation';
-import * as api from '../../api/index';
-import { GoogleLogin } from 'react-google-login';
-import * as userActions from '../../redux/actions/User';
+import { login } from '../../api/Auth';
 
 import './form.scss';
-import { Button } from '@mui/material';
-import { Box } from '@mui/system';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import OutlinedInput from '@mui/material/OutlinedInput';
+
+import Swal from 'sweetalert2';
+import cogoToast from 'cogo-toast';
 
 export function LoginForm() {
   const initialState = {
-    name: '',
+    email: '',
     password: '',
-    nameError: '',
+    emailError: '',
     passwordError: ''
   };
   const [formData, setFormData] = useState(initialState);
@@ -26,73 +28,70 @@ export function LoginForm() {
     if (!noErrors) {
       setFormData({
         ...formData,
-        nameError: errors.name || '',
+        emailError: errors.email || '',
         passwordError: errors.password || '',
       });
       return;
     }
-    const user = await api.getUser({ "name": formData.name, "password": formData.password });
 
-    if (user && user.data) {
-      dispatch({ type: 'SIGN_IN', payload: user.data });
-      setFormData(initialState);
-    } else {
-      setFormData({
-        ...formData,
-        nameError: "user doesn't exist"
-      });
-    }
+    login(formData)
+      .then((res) => {
+        dispatch({ type: 'UPDATE', payload: res?.data });
+        cogoToast.success("logged in successfully!");
+      })
+      .catch(err => {
+        cogoToast.error(err.response.data || "couldn't login");
+      })
+
   };
 
-  const googleResponse = async (res) => {
-    const profile = res.profileObj;
-    // has registered email
-    const user = await api.getUser({ "email": profile.email });
-    if (user.data) {
-      dispatch({ type: 'SIGN_IN', payload: user.data });
-    } else {
-      userActions.createUser({ name: profile.name, email: profile.email });
-    }
-  }
+  // const googleResponse = async (res) => {
+  //   const profile = res.profileObj;
+  //   // has registered email
+  //   const user = await api.getUser({ "email": profile.email });
+  //   if (user.data) {
+  //     // dispatch({ type: 'SIGN_IN', payload: user.data });
+  //   } else {
+  //     // userActions.createUser({ name: profile.name, email: profile.email });
+  //   }
+  // }
 
   return (
     <Box className="form-container">
       <div className="input-container">
-        <input
-          className={`${formData.nameError === '' ? '' : "input-error"}`}
-          type="text"
-          placeholder="name"
-          name="name"
-          value={formData.name}
-          onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+        <OutlinedInput
+          placeholder="email"
+          type="email"
+          className={`input-field ${formData.emailError === '' ? '' : "input-error"}`}
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
-        {formData.nameError !== '' && <span className="error-msg">{formData.nameError}</span>}
+        {formData.emailError !== '' && <span className="error-msg">{formData.emailError}</span>}
       </div>
       <div className="input-container">
-        <input
-          className={`${formData.passwordError === '' ? '' : "input-error"}`}
-          type="password"
-          placeholder="password"
-          name="password"
+        <OutlinedInput
+          placeholder="Password"
+          type={formData.showPassword ? 'text' : 'password'}
+          className={`input-field ${formData.passwordError === '' ? '' : "input-error"}`}
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         />
         {formData.passwordError !== '' && <span className="error-msg">{formData.passwordError}</span>}
       </div>
-      <Button 
+      <Button
         variant="contained"
-        color="primary" 
+        color="primary"
         className="submit-btn"
         onClick={handleSubmit}
       >
         Login
       </Button>
-      <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
+      {/* <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
       <GoogleLogin
         clientId={process.env.GOOGLE_CLIENTID}
         onSuccess={googleResponse}
         onFailure={googleResponse}
-      />
+      /> */}
     </Box>
   );
 }

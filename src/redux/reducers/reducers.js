@@ -6,7 +6,7 @@ import storage from 'redux-persist/lib/storage'
 const userDetailsReducer = (state = { isLogged: false }, action) => {
   let updated = state;
   switch (action.type) {
-    case 'SIGN_IN':
+    case 'UPDATE':
       console.log(action.payload);
       updated = {
         ...state,

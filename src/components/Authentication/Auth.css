@@ -1,15 +1,18 @@
+.auth-page{
+  width: 100vw;
+  height: calc(100vh - 60px);
+  background-color: #131414;
+}
 .auth{
   position: absolute;
   min-width: 400px;
-  max-height:90%;
-  min-height: 450px;
-  border: 2px solid black;
+  max-height: 450px;
+  height: fit-content;
+  border: 2px solid #969696;
   left:50%;
-  right:50%;
+  top: 20%;
   transform: translateX(-50%);
-  top:20%;
-  bottom:20%;
-  font-family: Arial;
+  font-family: Poppins;
 }
 .toggle-btn{
   padding:.5rem;

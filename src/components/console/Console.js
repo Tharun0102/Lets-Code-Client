@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
-import './Console.css';
+import './Console.scss';
 import Input from './Input';
+import Box from '@mui/material/Box';
 
 export default function Console(props) {
   const { outputLoading, output } = props;
@@ -9,9 +10,9 @@ export default function Console(props) {
     props.setInput('');
   }, [])
   return (
-    <div className="console">
-      <div className="output">
-        <h2>console</h2>
+    <Box className="console">
+      <Box className="output">
+        <Box className="title">console</Box>
         <pre className="output-content">
           {outputLoading && <LoadingSpinner />}
           {!outputLoading && output?.compile_output &&
@@ -32,11 +33,11 @@ export default function Console(props) {
             </div>
           }
         </pre>
-      </div>
+      </Box>
       <Input
         input={props.input}
         setInput={props.setInput}
       />
-    </div >
+    </Box >
   )
 }

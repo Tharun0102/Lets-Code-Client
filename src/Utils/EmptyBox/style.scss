@@ -1,0 +1,17 @@
+.empty-box-container{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 1rem;
+  .empty-box-icon{
+    height: 100px;
+    width: 100px;
+    margin-bottom: 20px;
+  }
+  .noData-text{
+    font-family: Poppins;
+    font-size: 16px;
+    color: #FFFFFF;
+    text-align: center;
+  }
+}

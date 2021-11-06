@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import './form.scss';
 import { useDispatch } from 'react-redux';
-import * as userActions from '../../redux/actions/User';
 import validateInfo from './validation';
-import * as api from '../../api/index';
 import { GoogleLogin } from 'react-google-login';
-import { Button } from '@mui/material';
-import { Box } from '@mui/system';
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import OutlinedInput from '@mui/material/OutlinedInput';
+import Swal from 'sweetalert2';
+import cogoToast from 'cogo-toast';
+import { signup } from '../../api/Auth';
 
 export function SignupForm() {
   const [formData, setFormData] = useState({
@@ -15,7 +17,8 @@ export function SignupForm() {
     password: '',
     emailError: '',
     nameError: '',
-    passwordError: ''
+    passwordError: '',
+    showPassword: false
   });
   const dispatch = useDispatch();
 
@@ -33,68 +36,70 @@ export function SignupForm() {
       });
       return;
     }
-    // user already exists
-    const user = await api.getUser({ name: formData.name, email: formData.email });
-    if (user.data) {
-      alert("user already exists,try logging in");
-      return;
+
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password
     }
-    // name taken
-    const isTaken = await api.getUser({ name: formData.name });
-    if (isTaken.data) {
-      setFormData({ ...formData, nameError: 'name taken' });
-      return;
-    }
-    dispatch(userActions.createUser(formData));
+    signup(payload)
+      .then((res) => {
+        dispatch({ type: 'UPDATE', payload: res?.data })
+        cogoToast.success("accounted created successfully!");
+      }).catch((err) => {
+        cogoToast.error(err.response.data || "couldn't signup");
+      })
+    // dispatch(userActions.updateUser(formData));
   };
 
-  const googleResponse = async (res) => {
-    const profile = res.profileObj;
-    // has registered email
-    const user = await api.getUser({ "email": profile.email });
-    if (user.data) {
-      dispatch({ type: 'SIGN_IN', payload: user.data });
-    } else {
-      api.createUser({ name: profile.name, email: profile.email })
-        .then((res) => {
-          dispatch({ type: 'SIGN_IN', payload: res.data });
-        })
-        .catch(error => {
-          alert("error logging in,Please try again!");
-        });
-    }
-  }
+  // const googleResponse = async (res) => {
+  //   const profile = res.profileObj;
+  //   // has registered email
+  //   const user = await api.getUser({ "email": profile.email });
+  //   if (user.data) {
+  //     dispatch({ type: 'SIGN_IN', payload: user.data });
+  //   } else {
+  //     api.createUser({ name: profile.name, email: profile.email })
+  //       .then((res) => {
+  //         dispatch({ type: 'SIGN_IN', payload: res.data });
+  //       })
+  //       .catch(error => {
+  //         alert("error logging in,Please try again!");
+  //       });
+  //   }
+  // }
+  const handleMouseDownPassword = (event) => {
+    event.preventDefault();
+  };
 
   return (
     <Box className="form-container">
       <div className="input-container" >
-        <input
-          className={`${formData.emailError === '' ? '' : "input-error"}`}
-          type="email"
+        <OutlinedInput
           placeholder="email"
-          name="email"
+          type="email"
+          className={`input-field ${formData.emailError === '' ? '' : "input-error"}`}
           value={formData.email}
           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
         />
         {formData.emailError !== '' && <span className="error-msg">{formData.emailError}</span>}
       </div>
       <div className="input-container">
-        <input
-          className={`${formData.nameError === '' ? '' : "input-error"}`}
-          type="text"
+        <OutlinedInput
           placeholder="name"
-          name="name"
+          type="text"
+          className={`input-field ${formData.nameError === '' ? '' : "input-error"}`}
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
         {formData.nameError !== '' && <span className="error-msg">{formData.nameError}</span>}
       </div>
       <div className="input-container">
-        <input
-          className={`${formData.passwordError === '' ? '' : "input-error"}`}
-          type="password"
-          placeholder="password"
-          name="password"
+        <OutlinedInput
+          placeholder="Password"
+          type={formData.showPassword ? 'text' : 'password'}
+          className={`input-field ${formData.passwordError === '' ? '' : "input-error"}`}
           value={formData.password}
           onChange={(e) => setFormData({ ...formData, password: e.target.value })}
         />
@@ -108,13 +113,13 @@ export function SignupForm() {
       >
         Signup
       </Button>
-      <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
+      {/* <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
       
       <GoogleLogin
         clientId={process.env.REACT_APP_GOOGLE_CLIENTID}
         onSuccess={googleResponse}
         onFailure={googleResponse}
-      />
-    </Box>
+      /> */}
+    </Box >
   );
 }

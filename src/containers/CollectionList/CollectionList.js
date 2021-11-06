@@ -14,7 +14,8 @@ import './CollectionList.scss';
 import './projectModal.css';
 import './deleteModal.css';
 import LoadingSpinner from '../../components/LoadingSpinner/LoadingSpinner';
-import { Typography } from '@mui/material';
+import Typography from '@mui/material/Typography';
+import EmptyBox from '../../Utils/EmptyBox/EmptyBox';
 
 const defaultProjectState = { name: '', type: 'C', isFav: false, error: '' };
 
@@ -110,7 +111,7 @@ export default function CollectionList() {
               }
             </Select>
           </Box>
-          
+
           <Box className="modal-footer">
             <Button
               onClick={closeAddModal}
@@ -144,16 +145,18 @@ export default function CollectionList() {
       </div>
       {Loading && <LoadingSpinner />}
       {!Loading &&
-        user.projects.map(project => {
-          if (!project) return <span></span>
-          return <Project
-            project={project}
-            key={project._id}
-          />
-        })
+        <Box display="flex" flexDirection="column" width="100%" alignItems="center" marginTop="10px">
+          {user.projects.map(project => {
+            if (!project) return <span></span>
+            return <Project
+              project={project}
+              key={project._id}
+            />
+          })}
+        </Box>
       }
-      {!Loading && user.projects.length == 0 &&
-        <div style={{ fontSize: 20, fontFamily: 'sans-serif', padding: '1rem' }}>No Projects to show,try adding one!</div>
+      {!Loading && user.projects.length === 0 &&
+        <EmptyBox type="Project" />
       }
     </div>
   )
