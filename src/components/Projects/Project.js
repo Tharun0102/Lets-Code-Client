@@ -44,7 +44,7 @@ function Project(props) {
       onClose={closeDeleteModal}
       className="modal-style"
     >
-      <Box className="delete-modal">
+      <Box className="delete-modal" style={{ paddingTop: props?.key === 0 ? '0' : '1rem' }}>
         <Typography className="label-text">Are you sure you want to delete?</Typography>
         <Typography className="modal-content">on confirming, this Project will be deleted permanently</Typography>
         <Box className="modal-footer">

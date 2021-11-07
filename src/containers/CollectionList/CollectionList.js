@@ -9,6 +9,7 @@ import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
+import cogoToast from 'cogo-toast';
 
 import './CollectionList.scss';
 import './projectModal.css';
@@ -59,7 +60,7 @@ export default function CollectionList() {
 
   const addProjectHandler = async (e) => {
     e.preventDefault();
-    console.log(projectData);
+    closeAddModal();
     if (projectData.name === '') {
       setProjectData({ ...projectData, error: 'name cannot be empty!' });
       return;
@@ -69,11 +70,14 @@ export default function CollectionList() {
       setProjectData({ ...projectData, error: 'name is taken!' });
       return;
     }
-
-    const res = await api.createProject({ ...projectData, userId: user.id });
-
-    dispatch(ADD_PROJECT(res.data));
-    closeAddModal();
+    try {
+      const res = await api.createProject({ ...projectData, userId: user.id });
+      cogoToast.success('project added!');
+      dispatch(ADD_PROJECT(res.data));
+    } catch (err) {
+      cogoToast.error('Failed to add the project, try again!');
+      console.warn(err);
+    }
   }
 
 
@@ -143,21 +147,21 @@ export default function CollectionList() {
           ADD
         </Button>
       </div>
-      {Loading && <LoadingSpinner />}
-      {!Loading &&
-        <Box display="flex" flexDirection="column" width="100%" alignItems="center" marginTop="10px">
-          {user.projects.map(project => {
+      <Box className="projects-list">
+        {Loading && <LoadingSpinner />}
+        {!Loading &&
+          user.projects.map((project, index) => {
             if (!project) return <span></span>
             return <Project
               project={project}
-              key={project._id}
+              key={index}
             />
-          })}
-        </Box>
-      }
-      {!Loading && user.projects.length === 0 &&
-        <EmptyBox type="Project" />
-      }
+          })
+        }
+        {!Loading && user.projects.length === 0 &&
+          <EmptyBox type="Project" />
+        }
+      </Box>
     </div>
   )
 }
