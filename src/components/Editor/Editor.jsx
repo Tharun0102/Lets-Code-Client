@@ -6,6 +6,7 @@ import MonacoEditor from "@monaco-editor/react";
 import Button from '@mui/material/Button';
 
 import './Editor.scss'
+import { SET_FILE } from "../../redux/actions/Files";
 
 export default function Editor(props) {
   const { setOutputLoading, setOutput } = props;
@@ -16,7 +17,7 @@ export default function Editor(props) {
   const activeState = useSelector(state => state.active);
 
   useEffect(()=>{
-    dispatch({ type: 'SET_FILE', payload: { _id: null } })
+    dispatch(SET_FILE(null));
   },[])
 
   useEffect(() => {

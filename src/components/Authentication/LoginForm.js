@@ -9,6 +9,7 @@ import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 
 import cogoToast from 'cogo-toast';
+import { updateUser } from '../../redux/actions/User';
 
 export function LoginForm() {
   const initialState = {
@@ -35,7 +36,7 @@ export function LoginForm() {
 
     login(formData)
       .then((res) => {
-        dispatch({ type: 'UPDATE', payload: res?.data });
+        dispatch(updateUser(res?.data));
         cogoToast.success("logged in successfully!");
       })
       .catch(err => {
@@ -59,7 +60,7 @@ export function LoginForm() {
     <Box className="form-container">
       <div className="input-container">
         <OutlinedInput
-          placeholder="email"
+          placeholder="Email"
           type="email"
           className={`input-field ${formData.emailError === '' ? '' : "input-error"}`}
           value={formData.email}

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import './Project.scss';
 import Modal from '@mui/material/Modal';
 import * as api from '../../api';
-import * as userActions from '../../redux/actions/User';
+import { DELETE_PROJECT, SET_PROJECT } from '../../redux/actions/Projects';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
@@ -30,12 +30,12 @@ function Project(props) {
 
   const deleteHandler = async (e) => {
     await api.deleteProject({ id: user.id, projectId: props.project._id });
-    dispatch(userActions.DELETE_PROJECT({ _id: props.project._id }));
+    dispatch(DELETE_PROJECT(props.project._id));
     closeDeleteModal();
   }
 
   const goToProject = () => {
-    dispatch({ type: 'SET_PROJECT', payload: { _id: props.project._id } })
+    dispatch(SET_PROJECT(props.project._id))
   }
 
   return <React.Fragment>

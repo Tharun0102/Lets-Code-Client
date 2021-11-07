@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Project from '../../components/Projects/Project';
 import * as api from '../../api';
-import * as userActions from '../../redux/actions/User';
+import { ADD_PROJECT, INIT_PROJECTS } from '../../redux/actions/Projects';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import Box from '@mui/material/Box';
@@ -34,7 +34,7 @@ export default function CollectionList() {
       api.getUserProjects({ id: user.id })
         .then((res) => {
           const projects = res.data.filter(p => p !== null)
-          dispatch(userActions.INIT_PROJECTS(projects));
+          dispatch(INIT_PROJECTS(projects));
           setLoading(false);
         })
         .catch(error => {
@@ -72,7 +72,7 @@ export default function CollectionList() {
 
     const res = await api.createProject({ ...projectData, userId: user.id });
 
-    dispatch(userActions.ADD_PROJECT(res.data));
+    dispatch(ADD_PROJECT(res.data));
     closeAddModal();
   }
 

@@ -1,23 +1,20 @@
 import React, { useEffect } from 'react';
 import CollectionList from '../../containers/CollectionList/CollectionList';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import * as api from '../../api';
 
 import './home.css';
+import { updateUser } from '../../redux/actions/User';
 
 
 export default function Home() {
-  const dispatch = useDispatch();
   const user = useSelector(state => state.userDetails)
 
   useEffect(() => {
     const get = async () => {
       const fetched = await api.getUser({ name: user.name, email: user.email });
       if (fetched && fetched.data !== '') {
-        dispatch({
-          type: 'SIGN_IN',
-          payload: fetched.data
-        });
+        updateUser(fetched.data);
       }
     }
     get();

@@ -7,8 +7,10 @@ import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import cogoToast from 'cogo-toast';
 import { signup } from '../../api/Auth';
+import { updateUser } from '../../redux/actions/User';
 
 export function SignupForm() {
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -18,7 +20,6 @@ export function SignupForm() {
     passwordError: '',
     showPassword: false
   });
-  const dispatch = useDispatch();
 
   // signup
   const handleSubmit = async (e) => {
@@ -43,8 +44,8 @@ export function SignupForm() {
     }
     signup(payload)
       .then((res) => {
-        dispatch({ type: 'UPDATE', payload: res?.data })
-        cogoToast.success("accounted created successfully!");
+        dispatch(updateUser(res?.data));
+        cogoToast.success("user signup success!");
       }).catch((err) => {
         cogoToast.error(err.response.data || "couldn't signup");
       })
@@ -70,25 +71,25 @@ export function SignupForm() {
 
   return (
     <Box className="form-container">
-      <div className="input-container" >
-        <OutlinedInput
-          placeholder="email"
-          type="email"
-          className={`input-field ${formData.emailError === '' ? '' : "input-error"}`}
-          value={formData.email}
-          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-        />
-        {formData.emailError !== '' && <span className="error-msg">{formData.emailError}</span>}
-      </div>
       <div className="input-container">
         <OutlinedInput
-          placeholder="name"
+          placeholder="Username"
           type="text"
           className={`input-field ${formData.nameError === '' ? '' : "input-error"}`}
           value={formData.name}
           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
         />
         {formData.nameError !== '' && <span className="error-msg">{formData.nameError}</span>}
+      </div>
+      <div className="input-container" >
+        <OutlinedInput
+          placeholder="Email"
+          type="email"
+          className={`input-field ${formData.emailError === '' ? '' : "input-error"}`}
+          value={formData.email}
+          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+        />
+        {formData.emailError !== '' && <span className="error-msg">{formData.emailError}</span>}
       </div>
       <div className="input-container">
         <OutlinedInput

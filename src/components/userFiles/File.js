@@ -8,6 +8,7 @@ import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './file.scss';
+import { SET_FILE } from '../../redux/actions/Files';
 
 export default function File(props) {
   const [showOptions, setShowOptions] = useState(false);
@@ -38,16 +39,16 @@ export default function File(props) {
     }).catch(err => console.error(err));
     setShowOptions(false);
     props.setFetchFiles(prev => !prev);
-    dispatch({ type: 'SET_FILE', payload: { _id: null } })
+    dispatch(SET_FILE(null));
   }
 
   const selectFile = () => {
-    dispatch({ type: 'SET_FILE', payload: { _id: props.file._id } });
+    dispatch(SET_FILE(props.file._id));
   }
 
   return (
     <React.Fragment>
-      {deleteModal &&  <Modal
+      {deleteModal && <Modal
         open={deleteModal}
         onClose={closeDeleteModal}
         className="modal-style"
@@ -88,7 +89,7 @@ export default function File(props) {
           {props.file.name}
         </div>
         <div className="right">
-          <div onClick={openDeleteModal}><DeleteIcon/></div>
+          <div onClick={openDeleteModal}><DeleteIcon /></div>
 
           {/* for multiple options like rename */}
           {/* <button onClick={toggle} >

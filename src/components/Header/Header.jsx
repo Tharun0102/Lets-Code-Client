@@ -1,15 +1,18 @@
 import React from 'react';
 import './header.scss';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import cogoToast from 'cogo-toast';
+import { LOGOUT } from '../../redux/actions/User';
 
 export default function Header() {
   const userDetails = useSelector(state => state.userDetails);
   const dispatch = useDispatch();
+  const history= useHistory();
   const logout = () => {
-    dispatch({ type: 'LOG_OUT' });
+    dispatch(LOGOUT());
+    history.push('/');
     cogoToast.success("logged out successfully!");
   }
   const content = (userDetails.isLogged) ? (
@@ -28,7 +31,7 @@ export default function Header() {
     <div className="header">
       <div className="header-left">
         <Link to="/" >
-          <div className="title">FORMUP</div>
+          <div className="title">Lets Code</div>
         </Link >
       </div>
       <div className="header-right">
