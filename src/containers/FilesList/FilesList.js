@@ -9,11 +9,13 @@ import Modal from '@mui/material/Modal';
 import { useSelector } from 'react-redux';
 
 import './styles.scss';
-import { TextField } from '@mui/material';
+import TextField from '@mui/material/TextField';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export default function FilesList(props) {
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [addingFile, setAddingFile] = useState(false);
   const [fileModal, setFileModal] = useState(false);
   const [fileState, setFileState] = useState({ name: '', error: '' });
   const [fetchFiles, setFetchFiles] = useState(true);
@@ -52,14 +54,25 @@ export default function FilesList(props) {
     setFileState({ name: '', errror: '' });
   }
   const addFile = async () => {
+    if (fileState.name.trim() === '') {
+      setFileState({ ...fileState, error: 'file name required!' })
+      return;
+    }
     const fileNameExists = files.filter(file => file.name === fileState.name).length > 0;
     if (fileNameExists) {
       setFileState({ ...fileState, error: 'file name exists!' })
       return;
     }
-    const res = await api.createFile({ id: user.id, projectId: props.projectId, name: fileState.name, type: projectDetails.type });
-    setFiles([...files, res.data]);
-    closeFileModal();
+    setAddingFile(true);
+    try {
+      const res = await api.createFile({ id: user.id, projectId: props.projectId, name: fileState.name, type: projectDetails.type });
+      setFiles([...files, res.data]);
+      closeFileModal();
+      setAddingFile(false);
+    } catch (err) {
+      closeFileModal();
+      setAddingFile(false);
+    }
   }
   return (
     <div className="files-list" style={{ fontFamily: 'sans-serif' }}>
@@ -70,7 +83,7 @@ export default function FilesList(props) {
       >
         <Box className="addFile-modal">
           <Typography className="modal-title">Add File</Typography>
-          <Box className="modal-content">
+          <Box className="modal-content" display="flex" flexDirection="column">
             <TextField
               placeholder="name"
               type="text"
@@ -78,8 +91,8 @@ export default function FilesList(props) {
               value={fileState.name}
               className="input-name"
             />
-            <span style={{ color: 'red' }}>{fileState.error}</span>
-          </Box>          
+            {fileState.error !== '' && <span style={{ color: 'red', fontSize: '12px' }}>*{fileState.error}</span>}
+          </Box>
           <Box className="modal-footer">
             <Button
               onClick={closeFileModal}
@@ -93,7 +106,7 @@ export default function FilesList(props) {
               variant="contained"
               className="confirm-btn"
             >
-              Confirm
+              {addingFile ? <CircularProgress size={20} /> : "Confirm"}
             </Button>
           </Box>
         </Box>

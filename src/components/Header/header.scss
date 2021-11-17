@@ -11,6 +11,12 @@
 
 .header-left{
   padding-left: 1rem;
+  padding-top: .5rem;
+  .lc-logo{
+    user-select: none;
+    width: 130px;
+    height: 130px;
+  }
 }
 
 .header-left a{

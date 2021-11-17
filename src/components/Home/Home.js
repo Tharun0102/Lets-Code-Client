@@ -5,6 +5,7 @@ import * as api from '../../api';
 
 import './home.css';
 import { updateUser } from '../../redux/actions/User';
+import Header from '../Header/Header';
 
 
 export default function Home() {
@@ -20,8 +21,11 @@ export default function Home() {
     get();
   }, []);
   return (
-    <div className="home">
-      <CollectionList />
-    </div>
+    <>
+      <Header />
+      <div className="home">
+        <CollectionList />
+      </div>
+    </>
   )
 }

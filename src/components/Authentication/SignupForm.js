@@ -8,9 +8,11 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import cogoToast from 'cogo-toast';
 import { signup } from '../../api/Auth';
 import { updateUser } from '../../redux/actions/User';
+import CircularProgress from '@mui/material/CircularProgress';
 
 export function SignupForm() {
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -36,6 +38,7 @@ export function SignupForm() {
       return;
     }
 
+    setLoading(true);
 
     const payload = {
       name: formData.name,
@@ -46,8 +49,10 @@ export function SignupForm() {
       .then((res) => {
         dispatch(updateUser(res?.data));
         cogoToast.success("user signup success!");
+        setLoading(false);
       }).catch((err) => {
         cogoToast.error(err.response.data || "couldn't signup");
+        setLoading(false);
       })
     // dispatch(userActions.updateUser(formData));
   };
@@ -107,7 +112,7 @@ export function SignupForm() {
         className="submit-btn"
         onClick={handleSubmit}
       >
-        Signup
+        {loading ? <CircularProgress size={20} /> : "Signup"}
       </Button>
       {/* <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
       

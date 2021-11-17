@@ -7,7 +7,7 @@ import './form.scss';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import OutlinedInput from '@mui/material/OutlinedInput';
-
+import CircularProgress from '@mui/material/CircularProgress';
 import cogoToast from 'cogo-toast';
 import { updateUser } from '../../redux/actions/User';
 
@@ -19,6 +19,7 @@ export function LoginForm() {
     passwordError: ''
   };
   const [formData, setFormData] = useState(initialState);
+  const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
@@ -33,16 +34,18 @@ export function LoginForm() {
       });
       return;
     }
+    setLoading(true);
 
     login(formData)
       .then((res) => {
         dispatch(updateUser(res?.data));
         cogoToast.success("logged in successfully!");
+        setLoading(false);
       })
       .catch(err => {
         cogoToast.error(err.response.data || "couldn't login");
+        setLoading(false);
       })
-
   };
 
   // const googleResponse = async (res) => {
@@ -84,7 +87,7 @@ export function LoginForm() {
         className="submit-btn"
         onClick={handleSubmit}
       >
-        Login
+        {loading ? <CircularProgress size={20} /> : "Login"}
       </Button>
       {/* <div style={{ textAlign: 'center', margin: "1rem 0" }}>OR</div>
       <GoogleLogin

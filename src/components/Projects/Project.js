@@ -8,12 +8,13 @@ import { DELETE_PROJECT, SET_PROJECT } from '../../redux/actions/Projects';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
 import StarIcon from '@mui/icons-material/Star';
 import DeleteTwoToneIcon from '@mui/icons-material/DeleteTwoTone';
-import { Button, Typography } from '@mui/material';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import { Box } from '@mui/system';
 function Project(props) {
   const dispatch = useDispatch();
   const user = useSelector(state => state.userDetails);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [deletingProject, setDeletingProjecct] = useState(false);
 
   const openDeleteModal = () => {
     setDeleteModal(true);
@@ -29,9 +30,16 @@ function Project(props) {
   }
 
   const deleteHandler = async (e) => {
-    await api.deleteProject({ id: user.id, projectId: props.project._id });
-    dispatch(DELETE_PROJECT(props.project._id));
-    closeDeleteModal();
+    setDeletingProjecct(true);
+    try {
+      await api.deleteProject({ id: user.id, projectId: props.project._id });
+      dispatch(DELETE_PROJECT(props.project._id));
+      setDeletingProjecct(false);
+      closeDeleteModal();
+    } catch (err) {
+      setDeletingProjecct(false);
+      closeDeleteModal();
+    }
   }
 
   const goToProject = () => {
@@ -60,7 +68,7 @@ function Project(props) {
             variant="contained"
             className="confirm-btn"
           >
-            Confirm
+            {deletingProject ? <CircularProgress size={20} /> : "Confirm"}
           </Button>
         </Box>
       </Box>
