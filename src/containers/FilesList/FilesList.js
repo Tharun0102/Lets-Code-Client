@@ -105,6 +105,7 @@ export default function FilesList(props) {
               onClick={addFile}
               variant="contained"
               className="confirm-btn"
+              disabled={addingFile}
             >
               {addingFile ? <CircularProgress size={20} /> : "Confirm"}
             </Button>

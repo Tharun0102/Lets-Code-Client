@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 // const baseURL = 'https://localhost:5000/';
-const baseURL = 'https://letscode-project.herokuapp.com';
+const baseURL = 'https://lets-code-server.herokuapp.com';
 
 //user
 export const getUser = (payload) => axios.post(

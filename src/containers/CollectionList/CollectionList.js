@@ -134,6 +134,7 @@ export default function CollectionList() {
               onClick={addProjectHandler}
               variant="contained"
               className="confirm-btn"
+              disabled={addingProject}
             >
               {addingProject ? <CircularProgress size={20} /> : "Add"}
             </Button>

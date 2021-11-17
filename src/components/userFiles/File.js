@@ -6,11 +6,13 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import Modal from '@mui/material/Modal';
+import CircularProgress from '@mui/material/CircularProgress';
 import DeleteIcon from '@mui/icons-material/Delete';
 import './file.scss';
 import { SET_FILE } from '../../redux/actions/Files';
 
 export default function File(props) {
+  const [deletingFile, setDeletingFile] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
   const [name, setName] = useState('');
   const [renameActive, setRenameActive] = useState(false);
@@ -32,11 +34,13 @@ export default function File(props) {
     setDeleteModal(false);
   }
   const deleteHandler = async () => {
+    setDeletingFile(true);
     await api.deleteFile({
       id: user.id,
       projectId: activeState.projectId,
       fileId: props.file._id
     }).catch(err => console.error(err));
+    setDeletingFile(false);
     setShowOptions(false);
     props.setFetchFiles(prev => !prev);
     dispatch(SET_FILE(null));
@@ -68,8 +72,9 @@ export default function File(props) {
               onClick={deleteHandler}
               variant="contained"
               className="confirm-btn"
+              disabled={deletingFile}
             >
-              Confirm
+              {deletingFile ? <CircularProgress size={20} /> : "Confirm"}
             </Button>
           </Box>
         </Box>

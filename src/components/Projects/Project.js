@@ -67,6 +67,7 @@ function Project(props) {
             onClick={deleteHandler}
             variant="contained"
             className="confirm-btn"
+            disabled={deletingProject}
           >
             {deletingProject ? <CircularProgress size={20} /> : "Confirm"}
           </Button>

@@ -86,6 +86,7 @@ export function LoginForm() {
         color="primary"
         className="submit-btn"
         onClick={handleSubmit}
+        disabled={loading}
       >
         {loading ? <CircularProgress size={20} /> : "Login"}
       </Button>
