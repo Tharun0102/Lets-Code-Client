@@ -21,7 +21,6 @@ export default function FilesList(props) {
   const [fetchFiles, setFetchFiles] = useState(true);
   const [projectDetails, setProjectDetails] = useState({});
   const user = useSelector(state => state.userDetails);
-
   useEffect(() => {
     setLoading(true);
     api.getProjectFiles({ id: user.id, projectId: props.projectId })

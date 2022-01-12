@@ -7,18 +7,20 @@ import Button from '@mui/material/Button';
 
 import './Editor.scss'
 import { SET_FILE } from "../../redux/actions/Files";
+import Typography from "@mui/material/Typography";
+import Box from "@mui/material/Box";
 
 export default function Editor(props) {
-  const { setOutputLoading, setOutput } = props;
+  const { setOutputLoading, setOutput, mobileView, handleShowFiles, setMobileVisibility } = props;
   const [saving, setSaving] = useState(false);
   const dispatch = useDispatch();
   const editorRef = useRef(null);
   const user = useSelector(state => state.userDetails);
   const activeState = useSelector(state => state.active);
 
-  useEffect(()=>{
-    dispatch(SET_FILE(null));
-  },[])
+  // useEffect(()=>{
+  //   dispatch(SET_FILE(null));
+  // },[])
 
   useEffect(() => {
     refreshEditor();
@@ -33,6 +35,7 @@ export default function Editor(props) {
     const languageType = await getType();
     const res = await judge.run(languageType, editorRef.current?.getValue(), props.input);
     setOutput(res)
+    if(mobileView) setMobileVisibility('console')
     setOutputLoading(false);
   }
 
@@ -76,9 +79,12 @@ export default function Editor(props) {
   return (
     <>
       {activeState.fileId === null &&
-        <div className="default-editor-window">
-          click on a file to open it!
-        </div>
+      <div className="default-editor-window">
+        <Box display="flex" flexDirection="column" alignItems="center" className="empty-editor-wrapper">
+          <Typography className="empty-editor-text">click on a file to open it!</Typography>
+          {mobileView && <Button variant="contained" className="files-btn" onClick={handleShowFiles}>Files</Button>}
+        </Box>
+      </div>
       }
       {activeState.fileId !== null &&
         <div className="editor">

@@ -1,10 +1,11 @@
 import axios from "axios";
 
 export const run = async (languageType, code, input) => {
+  console.log(process.env);
   // req1 for token
   const headers = {
     'Content-Type': 'application/json',
-    'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY,
+    'x-rapidapi-key': process.env.REACT_APP_RAPIDAPI_KEY || 'dcfb27d6e3mshc93558a5696e4b7p1c1140jsnf90fc22aaec5',
     'x-rapidapi-host': 'judge0-ce.p.rapidapi.com'
   }
   const data = {

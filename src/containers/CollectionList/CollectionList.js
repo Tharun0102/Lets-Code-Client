@@ -62,8 +62,8 @@ export default function CollectionList() {
 
   const addProjectHandler = async (e) => {
     e.preventDefault();
-    if (projectData.name === '') {
-      setProjectData({ ...projectData, error: 'name cannot be empty!' });
+    if (projectData.name.length <= 2 || projectData.name.length >= 30) {
+      setProjectData({ ...projectData, error: 'name length must be in between 3 and 30!' });
       return;
     }
     const isNameTaken = user.projects.filter(p => (p !== null && p.name === projectData.name)).length > 0;

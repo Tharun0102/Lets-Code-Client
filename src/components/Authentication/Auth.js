@@ -39,7 +39,6 @@ export default function Auth() {
 
             {params.type === 'signup' && <Typography className="auth-footer">Already have an account? <Link to="/auth/login" className="link">Login</Link></Typography>}
             {params.type === 'login' && <Typography className="auth-footer">New to Lets Code? <Link to="/auth/signup" className="link">Signup</Link></Typography>}
-            New to Replit? Sign up
           </div>
         </Box>
       </>

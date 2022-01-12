@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  align-items: center;
   padding:0 1rem 1rem 1rem;
   overflow: auto;
   background-color: black;
@@ -20,6 +21,9 @@
 .output{
   height: 45%;
   border: 2px solid rgb(85, 86, 88);
+  min-width: 300px;
+  width: 400px;
+  max-width: 90%;
 }
 .output-content{
   padding: .3rem;
@@ -32,6 +36,9 @@
 .input{
   height:45%;
   border: 2px solid rgb(85, 86, 88);
+  min-width: 300px;
+  width: 400px;
+  max-width: 90%;
 }
 .input .title{
   background-color: #272727;

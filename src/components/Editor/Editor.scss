@@ -3,14 +3,26 @@
   place-items: center;
   background-color: #262929;
   color:#FFFFFF;
+  height: 100%;
+  .empty-editor-wrapper{
+    .empty-editor-text{
+      font-family: Poppins;
+      font-size: 16px;
+    }
+    .files-btn{
+      font-size: 16px;
+      margin-top: 10px;
+      width: 120px;
+    }
+  }
 }
 .editor{
   position: relative;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 150px);
 }
 .editor-menu{
   width:100%;
-  height:100px;
+  height: 40px;
   position: absolute;
   bottom: 0;
   display: flex;
