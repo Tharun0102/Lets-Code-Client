@@ -23,6 +23,7 @@
   height: calc(100vh - 110px);
   .mobile-footer{
     position: fixed;
+    z-index: 200;
     bottom: 0;
     width: 100%;
     background-color: #1d1f22;
