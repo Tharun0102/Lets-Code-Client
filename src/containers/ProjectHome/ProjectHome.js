@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { SET_FILE } from "../../redux/actions/Files";
 import { useParams } from 'react-router';
 import Console from '../../components/console/Console';
 import Editor from '../../components/Editor/Editor';
@@ -12,6 +13,7 @@ import './ProjectHome.scss';
 
 export default function ProjectHome() {
   const mobileView = useMediaQuery('(max-width:700px)');
+  const dispatch = useDispatch();
   const { projectId } = useParams();
   const activeState = useSelector(state => state.active);
   const [output, setOutput] = useState({});
@@ -26,6 +28,10 @@ export default function ProjectHome() {
   useEffect(() => {
     setShowFiles(false)
   }, [activeState.fileId])
+  useEffect(() => {
+    console.log("activeState.projectId", activeState.projectId);
+    dispatch(SET_FILE(null));
+  }, [activeState.projectId])
 
   if (mobileView) {
     return (

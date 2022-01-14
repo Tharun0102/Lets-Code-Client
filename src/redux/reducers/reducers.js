@@ -55,11 +55,12 @@ const userDetailsReducer = (state = { isLogged: false }, action) => {
       return state;
   }
 }
-const activeStateReducer = (state = { projectId: '', fileId: '', runButton: false }, action) => {
+const activeStateReducer = (state = { projectId: null, fileId: null, runButton: false }, action) => {
   switch (action.type) {
     case 'SET_PROJECT':
       return { ...state, projectId: action.payload._id };
     case 'SET_FILE':
+      console.log("file", action.payload);
       return { ...state, fileId: action.payload._id };
     case 'SET_BUTTON':
       return { ...state, runButton: true }
