@@ -7,7 +7,6 @@ const userDetailsReducer = (state = { isLogged: false }, action) => {
   let updated = state;
   switch (action.type) {
     case 'UPDATE':
-      console.log(action.payload);
       updated = {
         ...state,
         name: action.payload.name,
@@ -43,7 +42,6 @@ const userDetailsReducer = (state = { isLogged: false }, action) => {
       updated = state.projects.map((p) => {
         if (p._id == action.payload._id) {
           p.isFav = !p.isFav;
-          console.log(p.isFav);
         }
         return p;
       })
@@ -60,7 +58,6 @@ const activeStateReducer = (state = { projectId: null, fileId: null, runButton: 
     case 'SET_PROJECT':
       return { ...state, projectId: action.payload._id };
     case 'SET_FILE':
-      console.log("file", action.payload);
       return { ...state, fileId: action.payload._id };
     case 'SET_BUTTON':
       return { ...state, runButton: true }

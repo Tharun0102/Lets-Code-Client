@@ -29,7 +29,6 @@ export default function ProjectHome() {
     setShowFiles(false)
   }, [activeState.fileId])
   useEffect(() => {
-    console.log("activeState.projectId", activeState.projectId);
     dispatch(SET_FILE(null));
   }, [activeState.projectId])
 

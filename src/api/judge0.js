@@ -1,7 +1,6 @@
 import axios from "axios";
 
 export const run = async (languageType, code, input) => {
-  console.log(process.env);
   // req1 for token
   const headers = {
     'Content-Type': 'application/json',
@@ -19,7 +18,6 @@ export const run = async (languageType, code, input) => {
   ).catch(function (error) {
     console.error(error);
   });
-  console.log(res1, process.env.REACT_APP_RAPIDAPI_KEY);
   const token = res1?.data?.token;
 
   // req2 for output

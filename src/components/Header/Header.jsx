@@ -13,7 +13,6 @@ export default function Header() {
   const dispatch = useDispatch();
   const history= useHistory();
   const params = useParams();
-  console.log(params,history.location);
   const logout = () => {
     dispatch(LOGOUT());
     history.push('/');
