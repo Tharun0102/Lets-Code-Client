@@ -1,7 +1,6 @@
 import axios from 'axios';
 
-// const baseURL = 'https://localhost:5000/';
-const baseURL = 'https://lets-code-server.herokuapp.com';
+const baseURL = process.env.REACT_APP_SERVER_URL;
 
 //user
 export const getUser = (payload) => axios.post(
